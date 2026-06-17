@@ -9,21 +9,6 @@ Two goals:
 
 ---
 
-## How to read a note
-
-Every note follows the same order — the order you'd use on a real problem:
-
-1. **What it is** — the one rule that defines it
-2. **Spot it** — in a problem, and in real code
-3. **What you track** — the variables / data
-4. **How it works** — plain steps
-5. **Picture** — a diagram
-6. **Two disguises** — same trick, unrelated problems
-7. **Questions to ask**
-8. **Go faster**
-
----
-
 ## How slow is too slow? (Big-O, no math)
 
 Big-O answers one question: **when the list gets bigger, how fast does the work pile up?** You're comparing the _shape_ of the code, not crunching numbers.
@@ -64,52 +49,20 @@ The tricks are built out of these. Plain words:
 Folders mirror the hierarchy: a trick nested inside another is **built on it** — Sliding Window lives inside `two-pointers/` because it's just two markers plus a rule for moving them. Each leaf is a folder with its own note.
 
 ```text
-two-pointers/
-  sliding-window/
-  fast-slow-pointers/        # also used in linked-list problems — link, don't copy
-  two-markers-both-ends/
-  merge-two-sorted/
-binary-search/
-  guess-the-answer/
-  rotated-list/
-hashing/
-  counting/
-  two-sum/
-  grouping-anagrams/
-stack/
-  monotonic-stack/
-  matching-brackets/
-heap/
-  top-k/
-  merge-k-lists/
-  running-median/
-recursion-backtracking/
-  subsets-orderings/
-  puzzle-solving/
-dynamic-programming/         # "remember past answers" lives here
-  one-d/
-  grid/
-  pick-under-limit/
-  ranges/
-graphs/
-  ring-by-ring/
-  deep-path/
-  order-by-dependencies/
-  whos-connected/
-  cheapest-path/
-trees/
-  go-deep/
-  level-by-level/
-  sorted-tree/
-prefix-sum/
-intervals/
-bit-manipulation/
-greedy/
+two-pointers/            # sliding window, fast/slow, both-ends, merge two sorted
+binary-search/           # on a sorted list, or on the answer itself
+hashing/                 # counting, two-sum, grouping
+stack/                   # monotonic stack, bracket matching
+heap/                    # top-k, merge-k, running median
+recursion-backtracking/  # subsets / orderings, puzzles
+dynamic-programming/     # remember past answers — 1-D, grid, knapsack, ranges
+graphs/                  # BFS, DFS, topological sort, union-find, shortest path
+trees/                   # depth-first, level-order, BST
 ```
 
-Helpers that show up _inside_ many of these: **Prefix Sum** (running totals), **Intervals** (start/end ranges), **Bit Manipulation** (toggling 0s and 1s), **Greedy** (grab the best-looking option right now).
+Leaf folders (e.g. `two-pointers/sliding-window/`) get created as you write each note.
 
-**Rule:** each trick lives in **one** folder. Fits two families? Pick the real parent and **link** from the other — never copy.
+Helpers that show up _inside_ many of these: **Prefix Sum** (running totals), **Intervals** (start/end ranges), **Bit Manipulation** (toggling 0s and 1s), **Greedy** (grab the best-looking option right now).
 
 ---
 
@@ -119,7 +72,6 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 
 | Trick | Folder | Reach for it when you see… |
 |---|---|---|
-| _none yet_ | — | — |
 
 ---
 
@@ -174,13 +126,13 @@ Two unrelated problems, same trick — this is what wires recognition.
 - B (e.g. money / traffic / scores): same trick, different story.
 
 ## 7. Questions to ask
-**Skip** (already in the prompt): "what's a subarray?"
-**Ask** (scopes it fast): empty or one item? negatives / duplicates? how big? mutate in place or return new?
+Only the **trick-specific** ones here (generic scoping questions live in the README's question table).
+- e.g. "Can the window be empty?", "Are values bounded so I can count them in an array?"
 
 ## 8. Go faster
 - The loop skeleton you keep ready to type.
 - The one rule that must stay true every step (the invariant).
-- Usual bugs here (off-by-one, empty case).
+- Bugs **specific to this trick** (the universal ones live in the README's traps list).
 - State the cost out loud first: "O(n), one pass, two markers."
 ````
 
