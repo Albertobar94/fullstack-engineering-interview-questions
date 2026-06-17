@@ -24,15 +24,19 @@ Every note follows the same order — the order you'd use on a real problem:
 
 ---
 
-## "Fast" vs "slow" (Big-O, no math)
+## "Fast" vs "slow" — Big-O without the math
 
-| Term | In code | Rule of thumb |
+You'll see things like `O(n)` and `O(n²)`. You don't need the math — just a feel for how the work grows as the list gets bigger. In code terms:
+
+| You'll see | What it is in code | When the list **doubles** |
 |---|---|---|
-| **O(n)** | one loop | list doubles → work doubles |
-| **O(n²)** | loop inside a loop | list doubles → work **×4**, slow on big lists |
-| **O(log n)** | throw away half each step ("higher / lower") | huge list, few steps — fast |
+| **O(1)** | no loop — one direct step (`arr[0]`, look up a key) | nothing changes — always instant |
+| **O(log n)** | each step throws away **half** what's left (like "higher / lower" guessing) | barely grows — a million items finishes in ~20 steps |
+| **O(n)** | one `for` loop over the list | work doubles too — fine |
+| **O(n log n)** | sort first, then one loop | a bit more than doubles — the realistic target for most problems |
+| **O(n²)** | a `for` loop **inside** another (compare everything to everything) | work goes up **4×** — falls apart on big lists |
 
-If a problem says *"up to 100,000 items,"* the loop-in-a-loop version is too slow. That line is a clue, not decoration.
+**Why this is the first thing to check:** the problem almost always tells you the input size. If it says *"up to 100,000 items,"* the loop-inside-a-loop (`O(n²)`) version is ~10 billion steps — too slow. That line isn't decoration; it's the hint that a smarter trick exists. Pick your target speed **before** you write code.
 
 ---
 
