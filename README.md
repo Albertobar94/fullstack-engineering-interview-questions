@@ -1,230 +1,257 @@
 # ts-algorithms
 
-A personal algorithm-pattern reference built for **recognition, not memorization**.
+Notes for learning algorithm patterns when you can already **code** (loops, arrays,
+objects, functions) but never studied "algorithms" or much math.
+
+The goal: stop memorizing solutions. Instead, learn to **recognize** what kind of
+problem you're looking at — so the right idea pops into your head on its own.
 
 ---
 
-## Philosophy — "Associate, don't memorize"
+## How this works
 
-You will never memorize enough solutions to cover every interview problem. But you
-can train a small number of **triggers**: a problem _shape_ that fires the thought
-_"this is a sliding-window problem"_ before you write a single line.
+You won't remember a thousand solutions. Nobody can. But there are only a handful of
+recurring **tricks**, and each one shows up in problems that _look_ totally different
+on the surface.
 
-Every entry in this repo exists to wire one of those triggers. So the entries are
-ordered to mirror how you actually attack a problem:
+So the trick is to spot the disguise. Each note here is built to train one
+question: **"Wait, have I seen this shape before?"**
 
-> **Spot it → grab Tools → know How → See it → Prove it → Talk smart → Go fast.**
+Read each note in this order — it's the same order you'd use on a real problem:
 
-Read each entry top-to-bottom in that order. The code is the _last_ thing you look
-at, not the first.
+1. **When do I use this?** (spot the clues in the question)
+2. **What do I need?** (the variables / data you'll track)
+3. **How does it work?** (plain steps, like a recipe)
+4. **What does it look like?** (a picture)
+5. **Two problems that secretly use it** (so you recognize the disguise)
+6. **What to ask out loud** (sound like you know what you're doing)
+7. **How to go faster next time**
 
----
-
-## How to use this repo
-
-1. **Stuck on a problem?** Scan the **Recognition Signals** of the relevant family
-   in the [Master Hierarchy Map](#master-hierarchy-map) below — match the _shape_,
-   not the topic.
-2. **Learning a pattern?** Open its folder and read the entry top-to-bottom.
-3. **Adding a pattern?** Copy the [Entry Template](#the-entry-template) verbatim and
-   fill every section. An entry with a missing section is incomplete.
+The code comes last, not first.
 
 ---
 
-## Master Hierarchy Map
+## A quick word on "fast" and "slow"
 
-An arrow means **"the child is built on / composes the parent technique."** Sliding
-Window is just Two Pointers with a rule for moving them, so it lives _under_ Two
-Pointers — both in this map and on disk.
+People throw around things like `O(n)` and `O(n²)`. You don't need the math. Here's
+the plain version, in terms you already know:
+
+| You'll hear | What it means in code | Rule of thumb |
+|---|---|---|
+| **O(n)** | One `for` loop over the list. | List doubles → work doubles. Fine. |
+| **O(n²)** | A `for` loop **inside** another `for` loop (compare everything to everything). | List doubles → work goes up **4×**. Slow on big lists. |
+| **O(log n)** | Each step you throw away **half** what's left (like "higher / lower" guessing). | Even a huge list finishes in a few steps. Very fast. |
+
+**Why you care:** if a problem says *"the list can have up to 100,000 items,"* that's
+a hint. The obvious loop-inside-a-loop version will be too slow — so there's probably
+a smarter trick. That sentence about list size is a clue, not decoration.
+
+---
+
+## The map of tricks
+
+The arrows mean **"this one is just the one above it, plus an extra rule."** For
+example, "Sliding Window" is really just "Two Pointers" with a rule for how the two
+markers move. So it sits underneath it.
 
 ```mermaid
 graph TD
-    TP[Two Pointers] --> SW[Sliding Window]
+    TP[Two Pointers: two markers walking a list] --> SW[Sliding Window]
     TP --> FS[Fast & Slow Pointers]
-    TP --> CP[Converging Pointers]
-    TP --> M2[Merge Two Sorted]
+    TP --> CP[Two Markers From Both Ends]
+    TP --> M2[Merge Two Sorted Lists]
 
-    BS[Binary Search] --> SA[Search on Answer]
-    BS --> RA[Rotated Array]
+    BS[Binary Search: keep halving] --> SA[Guess-and-Check the Answer]
+    BS --> RA[Search a Rotated List]
 
-    HASH[Hashing] --> FC[Frequency Count]
+    HASH[Hashing: a lookup table] --> FC[Counting Things]
     HASH --> TS[Two Sum]
-    HASH --> AG[Anagram Grouping]
+    HASH --> AG[Grouping Anagrams]
 
-    ST[Stack] --> MS[Monotonic Stack]
-    ST --> PM[Paren Matching]
+    ST[Stack: last-in first-out pile] --> MS[Monotonic Stack]
+    ST --> PM[Matching Brackets]
 
-    HEAP[Heap / Priority Queue] --> TK[Top-K]
-    HEAP --> MK[Merge K Sorted]
-    HEAP --> TH[Two-Heaps Median]
+    HEAP[Heap: always-pop-the-smallest box] --> TK[Top-K]
+    HEAP --> MK[Merge K Lists]
+    HEAP --> TH[Running Median]
 
-    RB[Recursion & Backtracking] --> SP[Subsets / Permutations]
-    RB --> CS[Constraint Search]
-    RB --> MEMO[Memoization]
-    MEMO -.becomes.-> DP
+    RB[Recursion & Backtracking: try, undo, try again] --> SP[All Subsets / Orderings]
+    RB --> CS[Puzzle Solving]
+    RB --> MEMO[Remember Past Answers]
+    MEMO -.turns into.-> DP
 
-    DP[Dynamic Programming] --> D1[1-D DP]
-    DP --> D2[Grid 2-D DP]
-    DP --> KS[Knapsack]
-    DP --> IV[Interval DP]
+    DP[Dynamic Programming: build on smaller answers] --> D1[1-D]
+    DP --> D2[Grid]
+    DP --> KS[Pick Items Under a Limit]
+    DP --> IV[Ranges]
 
-    GR[Graphs] --> GBFS[BFS]
-    GR --> GDFS[DFS]
-    GR --> TOPO[Topological Sort]
-    GR --> UF[Union-Find]
-    GR --> SHP[Shortest Path]
+    GR[Graphs: dots connected by lines] --> GBFS[Explore Ring by Ring]
+    GR --> GDFS[Explore One Path Deep]
+    GR --> TOPO[Order by Dependencies]
+    GR --> UF[Who's Connected to Who]
+    GR --> SHP[Cheapest Path]
 
-    TR[Trees] --> TDFS[DFS Traversal]
-    TR --> TBFS[BFS Level-Order]
-    TR --> BST[BST Ops]
-
-    GBFS -.uses.-> Q[Queue]
-    MS -.uses.-> ST
-    SW -.uses.-> Q
+    TR[Trees: a branching family chart] --> TDFS[Go Deep]
+    TR --> TBFS[Go Level by Level]
+    TR --> BST[Sorted Tree]
 ```
 
-Supporting techniques that show up _inside_ many of the above:
-**Prefix Sum**, **Intervals**, **Bit Manipulation**, **Greedy**.
+Helpers that show up _inside_ many of these:
+**Prefix Sum** (running totals), **Intervals** (start/end ranges),
+**Bit Manipulation** (toggling 0s and 1s), **Greedy** (always grab the best-looking
+option right now).
 
-### Folder layout (mirrors the map)
+### Where notes live (folders match the map)
 
-Each leaf is a folder with its own `README.md` following the template. Parents are
-folders; children nest inside them.
+Each leaf above is a folder with its own `README.md`. The "parent" trick is the
+folder; the variations live inside it.
 
 ```text
 two-pointers/
   sliding-window/
-  fast-slow-pointers/        # cross-link: also referenced by linked-list problems
-  converging-pointers/
+  fast-slow-pointers/        # also used in linked-list problems — link, don't copy
+  two-markers-both-ends/
   merge-two-sorted/
 binary-search/
-  search-on-answer/
-  rotated-array/
+  guess-the-answer/
+  rotated-list/
 hashing/
-  frequency-count/
+  counting/
   two-sum/
-  anagram-grouping/
+  grouping-anagrams/
 stack/
   monotonic-stack/
-  paren-matching/
+  matching-brackets/
 heap/
   top-k/
-  merge-k-sorted/
-  two-heaps-median/
+  merge-k-lists/
+  running-median/
 recursion-backtracking/
-  subsets-permutations/
-  constraint-search/
-dynamic-programming/         # memoization = recursion + caching, lives here
+  subsets-orderings/
+  puzzle-solving/
+dynamic-programming/         # "remember past answers" lives here
   one-d/
-  grid-2d/
-  knapsack/
-  interval/
+  grid/
+  pick-under-limit/
+  ranges/
 graphs/
-  bfs/
-  dfs/
-  topological-sort/
-  union-find/
-  shortest-path/
+  ring-by-ring/
+  deep-path/
+  order-by-dependencies/
+  whos-connected/
+  cheapest-path/
 trees/
-  dfs-traversal/
-  bfs-level-order/
-  bst-ops/
+  go-deep/
+  level-by-level/
+  sorted-tree/
 prefix-sum/
 intervals/
 bit-manipulation/
 greedy/
 ```
 
-**Conventions**
-- A technique lives in **exactly one** folder. If it appears in two families
-  (e.g. fast/slow pointers in linked-list problems), pick its true parent and
-  **cross-link**, never duplicate.
-- A composite pattern goes under the technique it is _built on_, not the topic it is
-  _used for_ (Sliding Window → `two-pointers/`, not `arrays/`).
+**Rule:** a trick lives in **one** folder only. If it fits two families, pick its
+real parent and **link** to it from the other — never paste a copy.
 
 ---
 
-## The Entry Template
+## The note template
 
-Every `<family>/<algorithm>/README.md` **must** contain these 8 sections, in this
-order. Copy the block below and fill it in. Reorder nothing — the order _is_ the
-learning path.
+Every `<family>/<trick>/README.md` fills in these 7 parts, in this order. Copy the
+block below and answer each question in plain words. Skip nothing.
 
 ````markdown
-# <Algorithm Name>
+# <Trick name>
 
-## 1. Lineage
-> Built on: [<parent technique>](../)
-One line: what does this add on top of the parent? (e.g. "Two pointers, but the gap
-between them encodes a window we grow and shrink under a constraint.")
+## 1. When do I use this?
+This is the most important part. You're learning to **spot the disguise**.
 
-## 2. Recognition Signals — patterns to look for
-What in the problem statement should make this pattern fire? List the tells:
-- Phrase tells — e.g. "contiguous subarray / substring", "sorted array + find a pair",
-  "kth largest", "shortest/longest window such that…".
-- Shape tells — e.g. "answer is a range over the input", "monotonic relationship",
-  "asks for an order / dependency".
-- Constraint tells — e.g. `n ≤ 1e5` rules out O(n²); "values are small" hints counting.
+Read the problem and ask: does it sound like any of these? Write the real giveaways
+in plain words, with tiny everyday examples:
+- Does it ask about a **chunk of the list sitting side-by-side**? (e.g. "longest run
+  of days with no rain", "best 5 numbers in a row")
+- Does it hand you a **sorted** list and ask you to **find a pair**?
+- Does it ask for "the biggest / smallest / kth-from-the-top" thing?
+- Does it say the list can be **huge** (like 100,000+)? → the loop-inside-a-loop way
+  is too slow, so a trick is hiding here.
 
-## 3. Data Structures required
-What you reach for and **why**:
-- e.g. two integer indices + a running sum; a hashmap of char→count; a deque holding
-  indices; a min-heap of size k.
+> One line to remember: "If the problem looks like ____, reach for this."
 
-## 4. Pseudocode (teen-simple)
-Plain words, no language syntax. A smart 15-year-old should follow it without knowing
-TypeScript. Describe the loop and the rule that moves state.
+## 2. What do I need?
+The stuff you'll keep track of while the code runs, and **why** — using things you
+already know:
+- a couple of number variables (e.g. a `left` and `right` position)
+- a running total
+- an object used as a lookup table (e.g. `counts[letter]`)
+- a list used as a pile (push to the end, pop from the end)
 
-## 5. Flow-State Diagram
-A Mermaid `flowchart` or `stateDiagram` of the loop and its state transitions
-(pointer moves, window grow/shrink, push/pop). Example:
+## 3. How does it work?
+Plain steps, like a cooking recipe. No fancy words. A 15-year-old who can write a
+`for` loop should be able to follow it:
+> 1. Start with `left` and `right` both at the front.
+> 2. Move `right` forward and add the new item in.
+> 3. If you broke the rule, move `left` forward until the rule holds again.
+> 4. Each step, remember the best answer so far.
+> 5. Stop when `right` reaches the end.
+
+## 4. What does it look like?
+A picture of what's happening each step — markers moving, a pile growing, halving the
+list. Use Mermaid:
 
 ```mermaid
 flowchart TD
-    A[start] --> B{condition?}
-    B -- yes --> C[do thing, advance state]
-    B -- no --> D[shrink / backtrack]
+    A[start] --> B{does it still follow the rule?}
+    B -- yes --> C[move forward, save best answer]
+    B -- no --> D[shrink / step back to fix it]
     C --> B
     D --> B
 ```
 
-## 6. Two Examples, Far Apart
-Two problems from **different domains** that reduce to the same pattern — the point is
-to force the association. State the mapping for each.
-- **Example A** (e.g. a string problem): how it maps to this pattern.
-- **Example B** (e.g. a streaming / networking / scheduling problem): how it maps.
+## 5. Two problems that secretly use it
+Pick **two problems that look completely unrelated** but use the exact same trick.
+This is what wires the recognition. Say plainly how each one maps:
+- **Problem A** (e.g. something with text): "the 'chunk of letters' is the window."
+- **Problem B** (e.g. something with money / network traffic / game scores): "the
+  'best stretch of days' is the same window — different story, same trick."
 
-## 7. Questions: Dumb vs Senior
-Two short lists.
-- **Dumb to ask** — answerable from the prompt, or signals you're stalling:
-  - e.g. "What does 'subarray' mean?"
-- **Senior to ask** — scopes complexity and edge cases fast, shows you've seen this before:
-  - e.g. "Are values non-negative? Can the window be empty? Are there duplicates?
-    What's the max n — do I need O(n) or is O(n log n) fine?"
+## 6. What to ask out loud
+Two short lists. (In an interview, the questions you ask matter as much as the code.)
 
-## 8. Speed Strategies
-A checklist to solve _any_ similar challenge quickly:
-- The template you keep ready (the loop skeleton).
-- The invariant you must hold every iteration.
-- Common off-by-one / edge traps for this pattern.
-- The complexity target to state out loud _before_ coding.
+**Questions that waste time** (the problem already answers these, or they make you
+look unsure):
+- e.g. "What's a subarray?" — don't.
+
+**Questions that make you look experienced** (they nail down the tricky bits fast):
+- "Can the list be empty or have one item?"
+- "Can numbers be negative? Are there duplicates?"
+- "How big can the list get?" (decides if you need the fast version)
+- "Should I change the list in place or return a new one?"
+
+## 7. How to go faster next time
+Your cheat sheet for any problem of this shape:
+- The skeleton you keep ready (the loop you can type from memory).
+- The one rule you must never break while looping (the "invariant" — the thing that
+  stays true every step).
+- The usual mistakes here (off-by-one, forgetting the empty case, etc.).
+- Say your plan out loud before coding: "This is O(n), one pass, using two markers."
 ````
 
 ---
 
-## Appendix — Global Senior-Signal Cheat Sheet
+## Handy questions for almost any problem
 
-Reusable questions that scope almost any problem fast. Keep per-entry question lists
-**specific**; lean on this list for the generic ones.
+When you're not sure what to ask, these scope a problem fast and make you sound like
+you've done this before:
 
-| Ask early | Why it signals seniority |
+| Ask early | Why it helps |
 |---|---|
-| "What's the input size / constraints?" | Picks the target complexity before coding. |
-| "Can the input be empty / a single element?" | Surfaces edge cases up front. |
-| "Sorted? Duplicates allowed? Negatives?" | Decides between two-pointers, hashing, counting. |
-| "Mutate input in place, or return new?" | Clarifies space budget and side effects. |
-| "One answer or all answers? Any valid one?" | Greedy vs backtracking vs DP. |
-| "Streaming / online, or all data up front?" | Heap / running-window vs full-scan. |
+| "How big can the input get?" | Tells you if the slow obvious way is good enough or not. |
+| "Can it be empty, or just one item?" | These are where bugs hide. |
+| "Sorted already? Duplicates? Negatives?" | Each answer points at a different trick. |
+| "Change it in place, or return something new?" | Decides how much extra memory you can use. |
+| "Do you want one answer, or all of them?" | One answer → often a quick greedy grab. All → usually try-everything. |
+| "Is the data coming in piece by piece, or do I have it all up front?" | Streaming needs different tools than a full list. |
 
-**Dumb tells to avoid:** re-asking what the prompt already states, asking for the
-solution approach, or asking before restating the problem in your own words.
+**Don't:** re-ask what the prompt already says, or ask "what approach should I use?"
+Always restate the problem in your own words first — that alone catches half the
+misunderstandings.
