@@ -17,7 +17,7 @@
  *  Problem:
  *    Given an array `nums` and an integer `target`, return the indices of the
  *    two numbers that add up to `target`. Exactly one answer exists. You may not
- *    use the same element twice. Answer order does not matter.
+ *    use the same number twice. Answer order does not matter.
  *
  *  Examples:
  *    nums = [2,7,11,15], target = 9  -> [0,1]   (2 + 7)
