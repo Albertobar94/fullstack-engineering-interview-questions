@@ -59,11 +59,12 @@ dynamic-programming/     # remember past answers — 1-D, grid, knapsack, ranges
 graphs/                  # BFS, DFS, topological sort, union-find, shortest path
 trees/                   # depth-first, level-order, BST
 bit-manipulation/        # divide by doubling, exponential search
+prefix-sum/              # running totals — highest altitude, peak so far
 ```
 
 Leaf folders (e.g. `two-pointers/sliding-window/`) get created as you write each note.
 
-Helpers that show up _inside_ many of these: **Prefix Sum** (running totals), **Intervals** (start/end ranges), **Greedy** (grab the best-looking option right now).
+Helpers that show up _inside_ many of these: **Intervals** (start/end ranges), **Greedy** (grab the best-looking option right now).
 
 ---
 
@@ -76,6 +77,7 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 | Two Sum (hashmap) | [`hashing/two-sum`](./hashing/two-sum/) | **unsorted** list + "find a pair summing to X"; "have I seen this?"; dedupe by key; replay / idempotency guard |
 | Two markers, both ends | [`two-pointers/two-markers-both-ends`](./two-pointers/two-markers-both-ends/) | **sorted** list + "find a pair"; palindrome / reverse-in-place; max area between two walls |
 | Divide by doubling | [`bit-manipulation/divide-two-integers`](./bit-manipulation/divide-two-integers/) | "no `*` `/` `%`"; a count/quotient up to ~2³¹ (too big to loop one-by-one); doubling a step until it overshoots; exponential search |
+| Running total, keep the best | [`prefix-sum/highest-altitude`](./prefix-sum/highest-altitude/) | step-by-step changes + "highest / lowest / peak so far"; running balance / altitude / concurrency; cumulative tally |
 
 > The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill.
 
