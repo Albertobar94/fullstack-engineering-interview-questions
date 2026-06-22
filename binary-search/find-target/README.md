@@ -47,38 +47,34 @@ Question 3 is the whole game: binary search only works when **one look in the mi
 - (for boundary searches) `answer` — the best position found so far.
 
 ## 4. How it works
-Pseudocode — find a value, or return -1 if it isn't there:
+Pseudocode. The four ⚠️ lines are where every binary-search bug hides — read those
+slowly; the rest is filler.
 
 ```
-left  = first index
-right = last index               // the range still to search is left..right
+left  = 0
+right = n - 1                    // ⚠️ LAST index, not n. (right is INCLUSIVE)
 
-while left <= right:
-    mid = middle of left and right
+while left <= right:             // ⚠️ <= , not < . When left == right one item
+                                 //    still needs checking; using < skips it.
 
-    if value[mid] is the target:
-        return mid               // found it
+    mid = left + (right - left) / 2   // ⚠️ round DOWN, and write it THIS way
+                                      //    (not (left+right)/2) so it can't overflow
 
-    if value[mid] < target:      // middle too small → answer is to the right
-        left = mid + 1
-    else:                        // middle too big → answer is to the left
-        right = mid - 1
+    if value[mid] == target:
+        return mid                    // found it
 
-return -1                        // range emptied, not in the list
+    else if value[mid] < target:
+        left = mid + 1           // ⚠️ mid + 1 , never `left = mid`. You already
+                                 //    checked mid; if you don't step past it the
+                                 //    window stops shrinking → INFINITE LOOP.
+    else:
+        right = mid - 1          // ⚠️ mid - 1 , same reason.
+
+return -1                        // range emptied → not in the list
 ```
 
-The middle, computed safely:
-
-```
-mid = left + (right - left) / 2  // halfway, rounded down; can never overflow
-```
-
-**Why `mid + 1` / `mid - 1`, and why `<=` (the part to slow down for):** `mid` was just
-checked, so re-including it does nothing but risk an **infinite loop** — when the window
-shrinks to one item, `mid` lands on it, and if you set `left = mid` (not `mid + 1`) the
-window never changes and you loop forever. Stepping past `mid` guarantees the window
-gets strictly smaller every time. The `<=` (not `<`) matters because `right` is an
-**inclusive** edge: when `left === right` there's still one item left to check.
+Lock these four in and it can't loop forever or miss an element:
+**`right = n-1`**, **`while left <= right`**, **round-down `mid`**, **`mid ± 1` when shrinking.**
 
 ## 5. Picture
 ```mermaid
