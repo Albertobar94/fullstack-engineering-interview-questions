@@ -23,9 +23,19 @@ halves every step, so even a million items finish in ~20 looks.
 > here a *middle probe* drives it, and the data must be sorted.
 
 ## 2. Spot it
-**In a problem:**
-- the input is **sorted** (or you can sort it) and you're searching for a value / boundary.
-- "find the **first / last** position where …", "the **smallest x** such that some condition flips from false to true".
+LeetCode phrases these stiffly. In plain words, **does the task sound like one of these?**
+- "I've got a phone book sorted A–Z — find 'Nguyen' (or say it's not there)." → find a value.
+- "Pick a number 1–1000; I'll only tell you *higher* or *lower*." → the pure form of the trick.
+- "Prices rose every day this month — what's the **first day** it went over $100?" → first position where a yes/no flips.
+- "Updates ran fine for years, then one broke login. **Which update** broke it first?" → first "bad" in a good→bad list (this is `git bisect`).
+- "Servers come in sizes; **what's the smallest size** that still handles the traffic?" → smallest value that passes a test (binary search on the *answer*, not on a list).
+- "New score goes into an already-ranked leaderboard — **where does it slot in**?" → insert position.
+
+The shared shape: the data (or the answers) is **ordered**, and "wrong here → the answer is entirely to one side." That's the green light.
+
+**In a problem (the formal tells):**
+- input is **sorted** (or you can sort it) and you're hunting a value or a boundary.
+- "find the **first / last** position where …", "the **smallest / largest** value such that …".
 - huge input where a plain scan (`O(n)`) is too slow but `O(log n)` is fine.
 
 **In real code** (reviewing a PR — any stack):
