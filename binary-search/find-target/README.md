@@ -23,25 +23,23 @@ halves every step, so even a million items finish in ~20 looks.
 > here a *middle probe* drives it, and the data must be sorted.
 
 ## 2. Spot it
-LeetCode phrases these stiffly. In plain words, **does the task sound like one of these?**
-- "I've got a phone book sorted A–Z — find 'Nguyen' (or say it's not there)." → find a value.
-- "Pick a number 1–1000; I'll only tell you *higher* or *lower*." → the pure form of the trick.
-- "Prices rose every day this month — what's the **first day** it went over $100?" → first position where a yes/no flips.
-- "Updates ran fine for years, then one broke login. **Which update** broke it first?" → first "bad" in a good→bad list (this is `git bisect`).
-- "Servers come in sizes; **what's the smallest size** that still handles the traffic?" → smallest value that passes a test (binary search on the *answer*, not on a list).
-- "New score goes into an already-ranked leaderboard — **where does it slot in**?" → insert position.
+Don't memorize example problems — run a **test** on the problem's words. Ask these three
+in order; all "yes" → binary search.
 
-The shared shape: the data (or the answers) is **ordered**, and "wrong here → the answer is entirely to one side." That's the green light.
+1. **Is anything in order?** The data is sorted, *or* the possible answers line up small→large. (No order anywhere → stop, it's not binary search.)
+2. **Am I after ONE thing?** A single value, or a single boundary — "the first / last / smallest / largest X that works." (Wants *all* matches, or a *combination / sum*? → not binary search.)
+3. **THE decider — does checking the middle throw away half?** Pick the middle candidate and test it. Does the result tell you the answer is *entirely to the left* or *entirely to the right*? **Yes → binary search.** If a wrong guess could still be on *either* side → not binary search.
 
-**In a problem (the formal tells):**
-- input is **sorted** (or you can sort it) and you're hunting a value or a boundary.
-- "find the **first / last** position where …", "the **smallest / largest** value such that …".
-- huge input where a plain scan (`O(n)`) is too slow but `O(log n)` is fine.
+Question 3 is the whole game: binary search only works when **one look in the middle eliminates half the possibilities.**
 
-**In real code** (reviewing a PR — any stack):
-- Frontend: looking up a value in a pre-sorted array; finding the insert position to keep a list sorted; picking the right breakpoint from sorted thresholds.
-- Backend: **`git bisect`** (halving commits to find the one that broke the build); searching a sorted index / sorted log by timestamp; the second half of exponential search (see `../../bit-manipulation/divide-two-integers`).
-- Smell test: a linear scan over a **sorted** array looking for a value or a boundary → replace with binary search, `O(n)` → `O(log n)`.
+### Run the test (so you can feel the difference)
+- *"Sorted prices — first day the price went over $100?"* → ordered ✅; one boundary ✅; middle day over $100 means first-over is here-or-earlier, drop the right half ✅ → **binary search.**
+- *"Servers come in sizes — smallest size that still handles the traffic?"* → no sorted list, but sizes line up ✅; smallest that works ✅; test the middle size, if it copes the answer is this-or-smaller ✅ → **binary search on the *answer*** (no array needed — this is the unlock).
+- *"Unsorted array — two numbers that add to a target?"* → not ordered ❌; a wrong middle pair tells you nothing about which half to keep ❌ → **not** binary search (that's the hashmap [`two-sum`](../../hashing/two-sum/README.md)).
+
+**The formal LeetCode tells** (same test, dressed up): "array is **sorted**", "find the **first/last** index where…", "**minimize/maximize** x **such that** condition holds", a huge input where `O(n)` is too slow but `O(log n)` is fine.
+
+**In real code** (reviewing a PR — any stack): `git bisect` (halving commits to find the one that broke the build); a lookup in a pre-sorted array; finding the insert spot to keep a list sorted; the second half of exponential search (see [`../../bit-manipulation/divide-two-integers`](../../bit-manipulation/divide-two-integers/README.md)). **Smell test:** a linear scan over **sorted** data hunting a value or boundary → swap in binary search, `O(n)` → `O(log n)`.
 
 ## 3. What you track
 - `left`, `right` — the edges of the window still worth searching (the fence).
