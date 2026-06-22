@@ -68,6 +68,31 @@ Helpers that show up _inside_ many of these: **Intervals** (start/end ranges), *
 
 ---
 
+## Front-end primitives (GFE 75)
+
+A **second axis**, kept separate on purpose. The folders above are algorithm
+patterns — you navigate them by *recognising which trick* a problem needs, and nesting
+means "built on the parent." This axis is different: the [GreatFrontEnd 75](https://www.greatfrontend.com/interviews/gfe75)
+classics — JS/browser primitives you **implement from scratch** (you already know the
+name; the skill is building it right and knowing *when* to reach for it). Here nesting
+is plain **categorisation**, not "built-on" — `debounce` isn't built on `throttle`.
+
+Same note shape as the algorithm notes (TL;DR recognition test → bug-focused pseudocode
+→ real examples). They live under `frontend/`:
+
+```text
+frontend/
+  rate-limiting/      # debounce, throttle  — tame a flood of calls
+  promises/           # promise.all, promisify, promise.race…   (planned)
+  function-utils/     # curry, memoize, bind, once…             (planned)
+  data-utils/         # deepClone, deepEqual, flatten, classNames…  (planned)
+```
+
+Scope: implement-from-scratch JS primitives only (the ones that fit a `solution.ts`).
+UI-build questions ("build a tabs component") are out — different format.
+
+---
+
 ## Notes
 
 The table of contents — and a recognition lookup. Add a row when you write a note.
@@ -79,8 +104,10 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 | Divide by doubling | [`bit-manipulation/divide-two-integers`](./bit-manipulation/divide-two-integers/) | "no `*` `/` `%`"; a count/quotient up to ~2³¹ (too big to loop one-by-one); doubling a step until it overshoots; exponential search |
 | Running total, keep the best | [`prefix-sum/highest-altitude`](./prefix-sum/highest-altitude/) | step-by-step changes + "highest / lowest / peak so far"; running balance / altitude / concurrency; cumulative tally |
 | Binary search (halve a sorted range) | [`binary-search/find-target`](./binary-search/find-target/) | **sorted** data + find a value or a boundary; "first/last position where…"; huge input needing O(log n); `git bisect` |
+| Debounce (fire once after quiet) | [`frontend/rate-limiting/debounce`](./frontend/rate-limiting/debounce/) | bursts of calls + you only want the **final** state; search-as-you-type, autosave, resize-end, file-watch reload |
+| Throttle (steady rate during burst) | [`frontend/rate-limiting/throttle`](./frontend/rate-limiting/throttle/) | bursts of calls + react **during** the burst at a fixed cadence; scroll/mousemove/drag handlers, outbound API rate-limit |
 
-> The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill.
+> The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise the last two (debounce / throttle) are the **same flood** under opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
 
 ---
 

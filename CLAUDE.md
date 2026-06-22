@@ -14,6 +14,13 @@ Each trick lives at `<family>/<trick>/` with a `README.md` + a `solution.ts`. Th
 README follows this order — **questions first, bug-focused pseudocode in the middle,
 real example problems last**. Reference note: `binary-search/find-target/README.md`.
 
+**Two axes, same note shape.** (1) Algorithm patterns at root (`binary-search/`,
+`hashing/`…) — navigated by *recognising which trick*; nesting means "built on parent."
+(2) Front-end primitives (GFE 75) under `frontend/<category>/<trick>/` — JS/browser
+utilities you implement from scratch; nesting is plain categorisation, not "built-on."
+Scope of the frontend axis: implement-from-scratch primitives that fit a `solution.ts`;
+UI-build questions are out. Reference: `frontend/rate-limiting/debounce/README.md`.
+
 1. **Title** — `# <Trick> — <one-line plain gist>`
 2. **## TL;DR**
    - **"Is it <trick>? Ask these — all yes → yes:"** the recognition test — the
