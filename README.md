@@ -83,6 +83,7 @@ Same note shape as the algorithm notes (TL;DR recognition test → bug-focused p
 ```text
 frontend/
   rate-limiting/      # debounce, throttle  — tame a flood of calls
+  events/             # event emitter  — pub-sub, fire callbacks by name
   promises/           # promise.all, promisify, promise.race…   (planned)
   function-utils/     # curry, memoize, bind, once…             (planned)
   data-utils/         # deepClone, deepEqual, flatten, classNames…  (planned)
@@ -106,6 +107,7 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 | Binary search (halve a sorted range) | [`binary-search/find-target`](./binary-search/find-target/) | **sorted** data + find a value or a boundary; "first/last position where…"; huge input needing O(log n); `git bisect` |
 | Debounce (fire once after quiet) | [`frontend/rate-limiting/debounce`](./frontend/rate-limiting/debounce/) | bursts of calls + you only want the **final** state; search-as-you-type, autosave, resize-end, file-watch reload |
 | Throttle (steady rate during burst) | [`frontend/rate-limiting/throttle`](./frontend/rate-limiting/throttle/) | bursts of calls + react **during** the burst at a fixed cadence; scroll/mousemove/drag handlers, outbound API rate-limit |
+| Event emitter (pub-sub by name) | [`frontend/events/event-emitter`](./frontend/events/event-emitter/) | one part announces "X happened", many react + (un)subscribe over time, linked by a **name** not a direct call; DOM events, app/domain event bus, sockets |
 
 > The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise the last two (debounce / throttle) are the **same flood** under opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
 
