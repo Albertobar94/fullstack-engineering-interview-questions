@@ -39,6 +39,17 @@ UI-build questions are out. Reference: `frontend/rate-limiting/debounce/README.m
    it but ISN'T" line naming the sibling trick + the question that tells them apart.
 8. Footer link to `solution.ts`.
 
+**Split families (a trick with sibling sub-notes).** When one trick fans out into sibling
+variants (e.g. `sliding-window/` → `fixed-size/` · `variable-distinct/` · `shrink-to-target/`),
+add **two extra pieces** so a reader landing on a child isn't dropped into the recognition
+test with no context:
+- an **overview README** at the parent folder (`<family>/<trick>/README.md`) — the shared
+  idea, the **goal**, the N flavors as a table + a "which one?" decision guide, and a link to
+  each child. Reference: `two-pointers/sliding-window/README.md`.
+- a **context banner** atop each child — a blockquote **between the title and the TL;DR**:
+  "N of M flavors — read the overview first", a one-line "this flavor: …", and the canonical
+  problem. Reference: `two-pointers/sliding-window/fixed-size/README.md`.
+
 Do **not** use the older sections "Spot it", "Two disguises", "Questions to ask",
 "Go faster" — they're folded into TL;DR (questions), How it works (bug lines), and
 Where you'll meet it (examples).
@@ -47,6 +58,7 @@ Where you'll meet it (examples).
 
 - TypeScript, strict-clean (explicit return types, no `any`, `const` by default, double quotes, semicolons).
 - Header doc comment carries ALL the reasoning: problem statement, approach, why-it-works, complexity, edge cases, and any language trap (e.g. JS `<<` is 32-bit).
+- Lean on idiomatic JS built-ins where they don't change the Big-O — `Math.max`/`Math.min` for a running best, `arr.reduce` to seed a sum, `Map`/`Set` for membership. But keep the trick's **core step explicit** when collapsing it would hide the idea or blow up complexity (e.g. the O(1) window slide `sum += entrant − leaver` must stay a slide, never a per-window `reduce` → O(n·k)).
 - Include the real LeetCode solution **and** a far-apart twin from a different domain.
 - End with a runnable self-check guarded by `if (import.meta.url === \`file://${process.argv[1]}\`)`.
 

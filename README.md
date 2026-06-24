@@ -105,11 +105,16 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 | Divide by doubling | [`bit-manipulation/divide-two-integers`](./bit-manipulation/divide-two-integers/) | "no `*` `/` `%`"; a count/quotient up to ~2³¹ (too big to loop one-by-one); doubling a step until it overshoots; exponential search |
 | Running total, keep the best | [`prefix-sum/highest-altitude`](./prefix-sum/highest-altitude/) | step-by-step changes + "highest / lowest / peak so far"; running balance / altitude / concurrency; cumulative tally |
 | Binary search (halve a sorted range) | [`binary-search/find-target`](./binary-search/find-target/) | **sorted** data + find a value or a boundary; "first/last position where…"; huge input needing O(log n); `git bisect` |
+| Sliding window (fixed size) | [`two-pointers/sliding-window/fixed-size`](./two-pointers/sliding-window/fixed-size/) | a window of **fixed width `k`** + "max/avg/sum of any `k` in a row"; slide don't re-sum; rolling metric / moving average |
+| Sliding window (variable, distinct) | [`two-pointers/sliding-window/variable-distinct`](./two-pointers/sliding-window/variable-distinct/) | **longest** run obeying a rule ("no repeats", "≤ K distinct"); grow til it breaks, shrink the left to fix |
+| Sliding window (shrink to target) | [`two-pointers/sliding-window/shrink-to-target`](./two-pointers/sliding-window/shrink-to-target/) | **shortest** run that *reaches* a target (sum ≥ X), **non-negative** numbers; grow til good, shrink to the minimum |
 | Debounce (fire once after quiet) | [`frontend/rate-limiting/debounce`](./frontend/rate-limiting/debounce/) | bursts of calls + you only want the **final** state; search-as-you-type, autosave, resize-end, file-watch reload |
 | Throttle (steady rate during burst) | [`frontend/rate-limiting/throttle`](./frontend/rate-limiting/throttle/) | bursts of calls + react **during** the burst at a fixed cadence; scroll/mousemove/drag handlers, outbound API rate-limit |
 | Event emitter (pub-sub by name) | [`frontend/events/event-emitter`](./frontend/events/event-emitter/) | one part announces "X happened", many react + (un)subscribe over time, linked by a **name** not a direct call; DOM events, app/domain event bus, sockets |
 
 > The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise the last two (debounce / throttle) are the **same flood** under opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
+>
+> The three **sliding-window** rows are one trick under three window rules: **fixed** width (slide a `k`-wide block), **grow-til-bad then shrink** (longest distinct run), **grow-til-good then shrink** (shortest run that hits a target). Spotting which rule applies is the recognition skill — the [sliding-window overview](./two-pointers/sliding-window/) explains the shared idea, the goal, and which flavor to reach for.
 
 ---
 
@@ -162,6 +167,19 @@ Mermaid flowchart of the loop / how its state moves.
 ---
 Solution code (fully commented): [`solution.ts`](./solution.ts).
 ````
+
+### Split families (a trick with sibling sub-notes)
+
+When one trick fans out into variants — e.g. `sliding-window/` → `fixed-size/`,
+`variable-distinct/`, `shrink-to-target/` — add two extra pieces so a child note reads on
+its own:
+
+- an **overview README** at the parent folder: the shared idea, the goal, the flavors in a
+  table + a "which one?" guide, and a link to each child — see
+  [`two-pointers/sliding-window`](./two-pointers/sliding-window/);
+- a **context banner** at the very top of each child — a blockquote *between the title and
+  the TL;DR*: "N of M flavors — read the overview first", a one-line "this flavor: …", and
+  the canonical problem — see [`two-pointers/sliding-window/fixed-size`](./two-pointers/sliding-window/fixed-size/).
 
 ---
 
