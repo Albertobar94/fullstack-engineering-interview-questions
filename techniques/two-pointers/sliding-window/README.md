@@ -54,7 +54,7 @@ A way to remember the two variable ones: one **grows until it goes bad, then shr
 
 ## Looks like it but ISN'T
 - Two markers walking inward from **both ends** of a **sorted** array → that's
-  [`two-markers-both-ends`](../two-markers-both-ends/), not a sliding window (the ends move
+  [`opposite-ends`](../opposite-ends/), not a sliding window (the ends move
   *toward each other*, the window doesn't slide).
 - "Subarray sum" with **negative** numbers → the shrink guarantee breaks (removing an item
   can *raise* the sum), so reach for [`prefix-sum`](../../prefix-sum/highest-altitude/) instead.

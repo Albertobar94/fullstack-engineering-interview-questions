@@ -128,5 +128,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("replay: a first -> a", firstReplay(["a", "b", "a", "c"]) === "a");
   ck("replay: y first -> y", firstReplay(["x", "y", "y", "x"]) === "y");
 
-  console.log(fail === 0 ? "hashing/two-sum: all checks passed" : `${fail} FAILED`);
+  console.log(fail === 0 ? "techniques/hashing/two-sum: all checks passed" : `${fail} FAILED`);
 }

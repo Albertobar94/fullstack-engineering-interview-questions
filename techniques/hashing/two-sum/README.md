@@ -77,7 +77,7 @@ flowchart TD
 - **Joining two datasets by key** — index one side into a `Map` by key, then look each row of the other side up in one step, instead of a nested loop. `O(n²)` → `O(n)`.
 
 **Looks like it but ISN'T:** if the array is **SORTED**, don't build a table — walk two
-pointers inward from both ends, `O(1)` space: see [`two-pointers/two-markers-both-ends`](../../two-pointers/two-markers-both-ends/README.md).
+pointers inward from both ends, `O(1)` space: see [`two-pointers/opposite-ends`](../../two-pointers/opposite-ends/README.md).
 Same question ("two things that sum to a target"), different trick — picked purely by
 whether the input is sorted.
 

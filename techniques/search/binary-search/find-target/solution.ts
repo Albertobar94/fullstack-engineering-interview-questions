@@ -128,5 +128,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("firstBad 5/5 -> 5", firstBadVersion(5, isBadFrom(5)) === 5);
   ck("firstBad none -> -1", firstBadVersion(5, () => false) === -1);
 
-  console.log(fail === 0 ? "binary-search/find-target: all checks passed" : `${fail} FAILED`);
+  console.log(fail === 0 ? "techniques/search/binary-search/find-target: all checks passed" : `${fail} FAILED`);
 }

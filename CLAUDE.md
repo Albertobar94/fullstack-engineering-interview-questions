@@ -12,10 +12,12 @@ real depth only on the genuinely hard part, inline.
 
 Each trick lives at `<family>/<trick>/` with a `README.md` + a `solution.ts`. The
 README follows this order — **questions first, bug-focused pseudocode in the middle,
-real example problems last**. Reference note: `binary-search/find-target/README.md`.
+real example problems last**. Reference note: `techniques/search/binary-search/find-target/README.md`.
 
-**Two axes, same note shape.** (1) Algorithm patterns at root (`binary-search/`,
-`hashing/`…) — navigated by *recognising which trick*; nesting means "built on parent."
+**Two axes, same note shape.** (1) Algorithm patterns under `techniques/` (e.g.
+`techniques/search/binary-search/`, `techniques/hashing/`…), grouped into the super-categories
+`techniques/`, `structures/`, `paradigms/` — navigated by *recognising which trick*; nesting
+means "a more specific case of the parent."
 (2) Front-end primitives (GFE 75) under `frontend/<category>/<trick>/` — JS/browser
 utilities you implement from scratch; nesting is plain categorisation, not "built-on."
 Scope of the frontend axis: implement-from-scratch primitives that fit a `solution.ts`;
@@ -45,10 +47,10 @@ add **two extra pieces** so a reader landing on a child isn't dropped into the r
 test with no context:
 - an **overview README** at the parent folder (`<family>/<trick>/README.md`) — the shared
   idea, the **goal**, the N flavors as a table + a "which one?" decision guide, and a link to
-  each child. Reference: `two-pointers/sliding-window/README.md`.
+  each child. Reference: `techniques/two-pointers/sliding-window/README.md`.
 - a **context banner** atop each child — a blockquote **between the title and the TL;DR**:
   "N of M flavors — read the overview first", a one-line "this flavor: …", and the canonical
-  problem. Reference: `two-pointers/sliding-window/fixed-size/README.md`.
+  problem. Reference: `techniques/two-pointers/sliding-window/fixed-size/README.md`.
 
 Do **not** use the older sections "Spot it", "Two disguises", "Questions to ask",
 "Go faster" — they're folded into TL;DR (questions), How it works (bug lines), and

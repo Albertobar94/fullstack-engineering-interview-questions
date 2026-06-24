@@ -132,7 +132,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   console.log(
     fail === 0
-      ? "two-pointers/sliding-window/shrink-to-target: all checks passed"
+      ? "techniques/two-pointers/sliding-window/shrink-to-target: all checks passed"
       : `${fail} FAILED`,
   );
 }

@@ -46,23 +46,31 @@ The tricks are built out of these. Plain words:
 
 ## The tricks (and where they live)
 
-Folders mirror the hierarchy: a trick nested inside another is **built on it** — Sliding Window lives inside `two-pointers/` because it's just two markers plus a rule for moving them. Each leaf is a folder with its own note.
+The algorithm axis is grouped into three super-categories. Within them, a trick nested
+inside another is **a more specific case** of it — Sliding Window lives inside
+`two-pointers/` because it's just two markers plus a rule for moving them. Each leaf is a
+folder with its own note.
 
 ```text
-two-pointers/            # sliding window, fast/slow, both-ends, merge two sorted
-binary-search/           # on a sorted list, or on the answer itself
-hashing/                 # counting, two-sum, grouping
-stack/                   # monotonic stack, bracket matching
-heap/                    # top-k, merge-k, running median
-recursion-backtracking/  # subsets / orderings, puzzles
-dynamic-programming/     # remember past answers — 1-D, grid, knapsack, ranges
-graphs/                  # BFS, DFS, topological sort, union-find, shortest path
-trees/                   # depth-first, level-order, BST
-bit-manipulation/        # divide by doubling, exponential search
-prefix-sum/              # running totals — highest altitude, peak so far
+techniques/                # the moves you apply to data
+  two-pointers/            # opposite-ends, sliding window, fast/slow, merge two
+  search/                  # binary search; exponential/galloping, on-the-answer (planned)
+  hashing/                 # counting, two-sum, grouping
+  prefix-sum/              # running totals — highest altitude, peak so far
+  bit-manipulation/        # divide by doubling — and the galloping-search twin
+structures/                # data structures you reach for             (planned)
+  stack/                   # monotonic stack, bracket matching
+  heap/                    # top-k, merge-k, running median
+  trees/                   # depth-first, level-order, BST
+  graphs/                  # BFS, DFS, topological sort, union-find, shortest path
+paradigms/                 # whole problem-solving strategies          (planned)
+  dynamic-programming/     # remember past answers — 1-D, grid, knapsack, ranges
+  recursion-backtracking/  # subsets / orderings, puzzles
 ```
 
-Leaf folders (e.g. `two-pointers/sliding-window/`) get created as you write each note.
+Leaf folders (e.g. `techniques/two-pointers/sliding-window/`) get created as you write each
+note. A family with more than one child gets an **overview README** at its folder (see
+`techniques/two-pointers/` and `techniques/search/`).
 
 Helpers that show up _inside_ many of these: **Intervals** (start/end ranges), **Greedy** (grab the best-looking option right now).
 
@@ -70,9 +78,10 @@ Helpers that show up _inside_ many of these: **Intervals** (start/end ranges), *
 
 ## Front-end primitives (GFE 75)
 
-A **second axis**, kept separate on purpose. The folders above are algorithm
-patterns — you navigate them by *recognising which trick* a problem needs, and nesting
-means "built on the parent." This axis is different: the [GreatFrontEnd 75](https://www.greatfrontend.com/interviews/gfe75)
+A **second axis**, kept separate on purpose — it sits at the top level next to
+`techniques/` (it is *not* under them). The folders above are algorithm patterns — you
+navigate them by *recognising which trick* a problem needs, and nesting means "a more
+specific case of the parent." This axis is different: the [GreatFrontEnd 75](https://www.greatfrontend.com/interviews/gfe75)
 classics — JS/browser primitives you **implement from scratch** (you already know the
 name; the skill is building it right and knowing *when* to reach for it). Here nesting
 is plain **categorisation**, not "built-on" — `debounce` isn't built on `throttle`.
@@ -100,21 +109,21 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 
 | Trick | Folder | Reach for it when you see… |
 |---|---|---|
-| Two Sum (hashmap) | [`hashing/two-sum`](./hashing/two-sum/) | **unsorted** list + "find a pair summing to X"; "have I seen this?"; dedupe by key; replay / idempotency guard |
-| Two markers, both ends | [`two-pointers/two-markers-both-ends`](./two-pointers/two-markers-both-ends/) | **sorted** list + "find a pair"; palindrome / reverse-in-place; max area between two walls |
-| Divide by doubling | [`bit-manipulation/divide-two-integers`](./bit-manipulation/divide-two-integers/) | "no `*` `/` `%`"; a count/quotient up to ~2³¹ (too big to loop one-by-one); doubling a step until it overshoots; exponential search |
-| Running total, keep the best | [`prefix-sum/highest-altitude`](./prefix-sum/highest-altitude/) | step-by-step changes + "highest / lowest / peak so far"; running balance / altitude / concurrency; cumulative tally |
-| Binary search (halve a sorted range) | [`binary-search/find-target`](./binary-search/find-target/) | **sorted** data + find a value or a boundary; "first/last position where…"; huge input needing O(log n); `git bisect` |
-| Sliding window (fixed size) | [`two-pointers/sliding-window/fixed-size`](./two-pointers/sliding-window/fixed-size/) | a window of **fixed width `k`** + "max/avg/sum of any `k` in a row"; slide don't re-sum; rolling metric / moving average |
-| Sliding window (variable, distinct) | [`two-pointers/sliding-window/variable-distinct`](./two-pointers/sliding-window/variable-distinct/) | **longest** run obeying a rule ("no repeats", "≤ K distinct"); grow til it breaks, shrink the left to fix |
-| Sliding window (shrink to target) | [`two-pointers/sliding-window/shrink-to-target`](./two-pointers/sliding-window/shrink-to-target/) | **shortest** run that *reaches* a target (sum ≥ X), **non-negative** numbers; grow til good, shrink to the minimum |
+| Two Sum (hashmap) | [`techniques/hashing/two-sum`](./techniques/hashing/two-sum/) | **unsorted** list + "find a pair summing to X"; "have I seen this?"; dedupe by key; replay / idempotency guard |
+| Opposite ends (two pointers) | [`techniques/two-pointers/opposite-ends`](./techniques/two-pointers/opposite-ends/) | **sorted** list + "find a pair"; palindrome / reverse-in-place; max area between two walls |
+| Divide by doubling | [`techniques/bit-manipulation/divide-two-integers`](./techniques/bit-manipulation/divide-two-integers/) | "no `*` `/` `%`"; a count/quotient up to ~2³¹ (too big to loop one-by-one); doubling a step until it overshoots; exponential search |
+| Running total, keep the best | [`techniques/prefix-sum/highest-altitude`](./techniques/prefix-sum/highest-altitude/) | step-by-step changes + "highest / lowest / peak so far"; running balance / altitude / concurrency; cumulative tally |
+| Binary search (halve a sorted range) | [`techniques/search/binary-search/find-target`](./techniques/search/binary-search/find-target/) | **sorted** data + find a value or a boundary; "first/last position where…"; huge input needing O(log n); `git bisect` |
+| Sliding window (fixed size) | [`techniques/two-pointers/sliding-window/fixed-size`](./techniques/two-pointers/sliding-window/fixed-size/) | a window of **fixed width `k`** + "max/avg/sum of any `k` in a row"; slide don't re-sum; rolling metric / moving average |
+| Sliding window (variable, distinct) | [`techniques/two-pointers/sliding-window/variable-distinct`](./techniques/two-pointers/sliding-window/variable-distinct/) | **longest** run obeying a rule ("no repeats", "≤ K distinct"); grow til it breaks, shrink the left to fix |
+| Sliding window (shrink to target) | [`techniques/two-pointers/sliding-window/shrink-to-target`](./techniques/two-pointers/sliding-window/shrink-to-target/) | **shortest** run that *reaches* a target (sum ≥ X), **non-negative** numbers; grow til good, shrink to the minimum |
 | Debounce (fire once after quiet) | [`frontend/rate-limiting/debounce`](./frontend/rate-limiting/debounce/) | bursts of calls + you only want the **final** state; search-as-you-type, autosave, resize-end, file-watch reload |
 | Throttle (steady rate during burst) | [`frontend/rate-limiting/throttle`](./frontend/rate-limiting/throttle/) | bursts of calls + react **during** the burst at a fixed cadence; scroll/mousemove/drag handlers, outbound API rate-limit |
 | Event emitter (pub-sub by name) | [`frontend/events/event-emitter`](./frontend/events/event-emitter/) | one part announces "X happened", many react + (un)subscribe over time, linked by a **name** not a direct call; DOM events, app/domain event bus, sockets |
 
 > The first two rows are the **same question** (Two Sum) under opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise the last two (debounce / throttle) are the **same flood** under opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
 >
-> The three **sliding-window** rows are one trick under three window rules: **fixed** width (slide a `k`-wide block), **grow-til-bad then shrink** (longest distinct run), **grow-til-good then shrink** (shortest run that hits a target). Spotting which rule applies is the recognition skill — the [sliding-window overview](./two-pointers/sliding-window/) explains the shared idea, the goal, and which flavor to reach for.
+> The three **sliding-window** rows are one trick under three window rules: **fixed** width (slide a `k`-wide block), **grow-til-bad then shrink** (longest distinct run), **grow-til-good then shrink** (shortest run that hits a target). Spotting which rule applies is the recognition skill — the [sliding-window overview](./techniques/two-pointers/sliding-window/) explains the shared idea, the goal, and which flavor to reach for.
 
 ---
 
@@ -123,7 +132,7 @@ The table of contents — and a recognition lookup. Add a row when you write a n
 Every `<family>/<trick>/README.md` follows this shape. The order is deliberate:
 **questions first** (how to recognize it + what to nail down + where bugs live), the
 **bug-focused pseudocode** in the middle, **real example problems last**. Plain words
-throughout — ground every term, no bare jargon. [`binary-search/find-target`](./binary-search/find-target/)
+throughout — ground every term, no bare jargon. [`techniques/search/binary-search/find-target`](./techniques/search/binary-search/find-target/)
 is the reference note.
 
 ````markdown
@@ -176,10 +185,10 @@ its own:
 
 - an **overview README** at the parent folder: the shared idea, the goal, the flavors in a
   table + a "which one?" guide, and a link to each child — see
-  [`two-pointers/sliding-window`](./two-pointers/sliding-window/);
+  [`techniques/two-pointers/sliding-window`](./techniques/two-pointers/sliding-window/);
 - a **context banner** at the very top of each child — a blockquote *between the title and
   the TL;DR*: "N of M flavors — read the overview first", a one-line "this flavor: …", and
-  the canonical problem — see [`two-pointers/sliding-window/fixed-size`](./two-pointers/sliding-window/fixed-size/).
+  the canonical problem — see [`techniques/two-pointers/sliding-window/fixed-size`](./techniques/two-pointers/sliding-window/fixed-size/).
 
 ---
 

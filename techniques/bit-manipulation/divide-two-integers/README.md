@@ -115,7 +115,7 @@ flowchart TD
 - **Exponential ("galloping") search** — double a probe index until the value there overshoots the target, then binary-search the bracket you just pinned down. Finds a bound in a huge, unbounded, or paginated sorted source without scanning linearly.
 - **Fixed-point math on hardware with no integer divide** — build division out of shifts/adds because the chip has no divide instruction.
 
-**Looks like it but ISN'T:** a plain `x << 1` used as a fast `×2` is **not** this trick — that's just a single bit op, no doubling loop, no "biggest chunk that fits". And note **exponential search = this note's doubling + binary search composed**: the doubling loop pins the bracket, then binary search finishes inside it (the sibling trick — see [`../../binary-search/find-target/README.md`](../../binary-search/find-target/README.md)).
+**Looks like it but ISN'T:** a plain `x << 1` used as a fast `×2` is **not** this trick — that's just a single bit op, no doubling loop, no "biggest chunk that fits". And note **exponential search = this note's doubling + binary search composed**: the doubling loop pins the bracket, then binary search finishes inside it (the sibling trick — see [`../../search/binary-search/find-target/README.md`](../../search/binary-search/find-target/README.md)).
 
 ---
 

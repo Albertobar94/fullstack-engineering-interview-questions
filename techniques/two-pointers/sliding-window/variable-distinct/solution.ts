@@ -133,7 +133,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   console.log(
     fail === 0
-      ? "two-pointers/sliding-window/variable-distinct: all checks passed"
+      ? "techniques/two-pointers/sliding-window/variable-distinct: all checks passed"
       : `${fail} FAILED`,
   );
 }

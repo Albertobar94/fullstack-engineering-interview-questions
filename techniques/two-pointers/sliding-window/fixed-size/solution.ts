@@ -127,6 +127,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("bytes window=1 -> max single", peakBytesInWindow([10, 200, 5], 1) === 200);
 
   console.log(
-    fail === 0 ? "two-pointers/sliding-window/fixed-size: all checks passed" : `${fail} FAILED`,
+    fail === 0 ? "techniques/two-pointers/sliding-window/fixed-size: all checks passed" : `${fail} FAILED`,
   );
 }

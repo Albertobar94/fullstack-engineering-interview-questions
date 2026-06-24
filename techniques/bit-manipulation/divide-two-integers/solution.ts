@@ -167,5 +167,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("exp find 20 -> -1", firstIndexAtLeast(arr, 20) === -1);
   ck("exp empty -> -1", firstIndexAtLeast([], 5) === -1);
 
-  console.log(fail === 0 ? "bit-manipulation/divide-two-integers: all checks passed" : `${fail} FAILED`);
+  console.log(fail === 0 ? "techniques/bit-manipulation/divide-two-integers: all checks passed" : `${fail} FAILED`);
 }

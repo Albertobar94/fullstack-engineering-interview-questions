@@ -98,7 +98,7 @@ flowchart TD
 - Longest span of a log with no duplicate request id; deepest unique-path crawl before a cycle.
 - De-duplicating a stream within a moving horizon.
 
-**Looks like it but ISN'T:** if you're chasing the **shortest** window that *reaches* a target (sum ≥ X), it's the mirror trick — grow until good, then shrink to minimize: [`shrink-to-target`](../shrink-to-target/). If the width is **fixed** up front, it's [`fixed-size`](../fixed-size/). And two markers walking inward from both ends of a **sorted** array is [`two-markers-both-ends`](../../two-markers-both-ends/), not a window.
+**Looks like it but ISN'T:** if you're chasing the **shortest** window that *reaches* a target (sum ≥ X), it's the mirror trick — grow until good, then shrink to minimize: [`shrink-to-target`](../shrink-to-target/). If the width is **fixed** up front, it's [`fixed-size`](../fixed-size/). And two markers walking inward from both ends of a **sorted** array is [`opposite-ends`](../../opposite-ends/), not a window.
 
 ---
 

@@ -32,7 +32,7 @@ halves every step, so even a million items finish in ~20 looks.
 4. **Step *past* `mid` when you shrink** — you already checked `mid`, so move to `mid + 1` or `mid − 1`, never back to `mid`. That single `±1` is what stops the loop from spinning forever.
 5. **Only works on sorted data** — the move "target is smaller → it's in the left half" is only true if the list is ordered.
 
-> Built on: nothing — this is a base technique. Note `two-pointers/two-markers-both-ends`
+> Built on: nothing — this is a base technique. Note `two-pointers/opposite-ends`
 > also walks two pointers inward, but there a *comparison of the two ends* drives it;
 > here a *middle probe* drives it, and the data must be sorted.
 
@@ -98,7 +98,7 @@ flowchart TD
 - **"Smallest server size that handles the traffic"** — no array, but the sizes line up; test the middle size. (Binary search on the answer.)
 - A phone-book / sorted-index lookup; slotting a new score into a ranked leaderboard.
 
-**Looks like it but ISN'T:** *"two numbers in an **unsorted** array that sum to a target"* — a wrong middle guess tells you nothing about which half to keep, so it's the hashmap [`two-sum`](../../hashing/two-sum/README.md), not binary search.
+**Looks like it but ISN'T:** *"two numbers in an **unsorted** array that sum to a target"* — a wrong middle guess tells you nothing about which half to keep, so it's the hashmap [`two-sum`](../../../hashing/two-sum/README.md), not binary search.
 
 ---
 

@@ -103,5 +103,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("concurrency never positive -> 0", peakConcurrency([-1, -1]) === 0);
   ck("concurrency empty -> 0", peakConcurrency([]) === 0);
 
-  console.log(fail === 0 ? "prefix-sum/highest-altitude: all checks passed" : `${fail} FAILED`);
+  console.log(fail === 0 ? "techniques/prefix-sum/highest-altitude: all checks passed" : `${fail} FAILED`);
 }

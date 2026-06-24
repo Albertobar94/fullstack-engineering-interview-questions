@@ -1,4 +1,4 @@
-# Two markers from both ends
+# Opposite ends — two markers converging from both sides
 
 ## TL;DR
 

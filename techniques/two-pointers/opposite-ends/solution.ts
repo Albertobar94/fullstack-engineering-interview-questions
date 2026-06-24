@@ -140,6 +140,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   ck("palindrome: 0P -> false (case/alnum edge)", isPalindrome("0P") === false);
 
   console.log(
-    fail === 0 ? "two-pointers/two-markers-both-ends: all checks passed" : `${fail} FAILED`,
+    fail === 0 ? "techniques/two-pointers/opposite-ends: all checks passed" : `${fail} FAILED`,
   );
 }
