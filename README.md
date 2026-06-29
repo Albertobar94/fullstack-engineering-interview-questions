@@ -10,6 +10,8 @@ Three goals:
 
 Also collects **front-end & full-stack interview builds** — React components, JS/TS utilities, browser primitives — same recognition-first spirit: spot the pattern, know where bugs hide.
 
+And a **domain axis** — [`domains/`](./domains/) — for business-domain knowledge a Staff engineer must build, not spot. First domain: [`fintech/`](./domains/fintech/) — the building blocks of a payments SaaS that scales (money, ledgers, idempotency…).
+
 > **Voice:** all notes are **extremely concise, grammar sacrificed for concision** — fragments, no filler. Technical substance stays exact; plain words, no bare jargon. See [`CLAUDE.md`](./CLAUDE.md) and the reference note [`paradigms/recursion`](./paradigms/recursion/).
 
 ---
@@ -117,6 +119,26 @@ a `solution.ts` (+ self-check); component build ships its component file(s) + fi
 
 ---
 
+## Domains (building what a SaaS needs)
+
+A **third axis** — [`domains/`](./domains/). The axes above ask *which trick?* (`techniques/`) or
+*which tool + what cost?* (`structures/`). This one asks *building a real product in this domain,
+what pieces must you get right and how does each fail?* Navigate by **domain knowledge**, not trick
+recognition. Notes here use the **building-block shape** (see [Note template](#note-template)).
+
+First domain — [`fintech/`](./domains/fintech/): what a Staff engineer must build for a payments SaaS
+that scales. Two tracks — `architecture/` (money, double-entry ledger, idempotency, reconciliation,
+compliance, scaling) and `algorithms/` (fintech-flavored DSA that links back to `techniques/`).
+
+```text
+domains/
+  fintech/
+    architecture/   # money-representation, ledger-double-entry, idempotency-keys (✅) + 8 planned
+    algorithms/     # order-book (heap), running balance (prefix-sum), velocity windows…  (planned)
+```
+
+---
+
 ## Notes
 
 Table of contents — and a recognition lookup. Add a row when you write a note.
@@ -146,6 +168,9 @@ Table of contents — and a recognition lookup. Add a row when you write a note.
 | **Heap** (min/max-first — a *structure*) | [`structures/heap`](./structures/heap/) | "give me the **smallest/biggest next**"; top-k, merge-k, running median, Dijkstra; a tree packed in a flat array (vs sorted array; vs BST) |
 | **Tree / BST** (ordered branching — a *structure*) | [`structures/trees`](./structures/trees/) | **ordered** search + range + sorted scan, O(log n) *if balanced*; in-order = sorted (vs heap = min/max only; vs hash map = unordered) |
 | **Graph** (dots + lines — a *structure*) | [`structures/graphs`](./structures/graphs/) | things **connected** to things, cycles allowed; BFS/DFS, topological sort, shortest path, union-find; needs a `visited` set (vs tree = no cycles) |
+| **Money representation** (fintech *building block*) | [`domains/fintech/architecture/money-representation`](./domains/fintech/architecture/money-representation/) | storing / summing / splitting currency; integers (cents) not floats; penny-perfect split; anything reconciled against a bank or auditor |
+| **Double-entry ledger** (fintech *building block*) | [`domains/fintech/architecture/ledger-double-entry`](./domains/fintech/architecture/ledger-double-entry/) | balances that change + "why is this balance this?" must be answerable; money **moves**, never appears/vanishes; append-only, real/regulated money |
+| **Idempotency keys** (fintech *building block*) | [`domains/fintech/architecture/idempotency-keys`](./domains/fintech/architecture/idempotency-keys/) | an effect that **costs money** + a caller that can retry; running twice is wrong; safe retries / exactly-once charges |
 
 > First two rows = **same question** (Two Sum), opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise last two (debounce / throttle) = **same flood**, opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
 >
@@ -222,6 +247,16 @@ skeleton, swapped middle: reach-for-it test → **what it really is (abstraction
 **what it costs (and why)** → **what it unlocks** (links to the algorithm notes that need it) →
 picture → where you'll meet it. See the [`structures/` overview](./structures/) and the exemplar
 [`structures/array`](./structures/array/).
+
+### Building-block notes (`domains/`)
+
+Domain building blocks (ledgers, idempotency, money types) are things you *build*, not tricks you
+*spot* — a third shape, adapted from the structure shape with the middle swapped for **failure
+modes** (money/compliance bugs are the point): reach-for-it test → **what it really is** → **what it
+costs & risks** (the wrong way → the consequence) → **how to build it** (pseudocode, ⚠️ bug lines) →
+picture → where you'll meet it (real systems · libraries/standards · looks-like-but-isn't sibling).
+See the [`domains/fintech`](./domains/fintech/) roadmap and the exemplar
+[`money-representation`](./domains/fintech/architecture/money-representation/).
 
 ---
 

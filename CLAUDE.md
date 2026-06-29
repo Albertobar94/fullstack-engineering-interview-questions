@@ -28,7 +28,7 @@ Each trick at `<family>/<trick>/` — `README.md` + `solution.ts`. README order:
 bug-focused pseudocode middle, real example problems last**. Reference:
 `techniques/search/binary-search/find-target/README.md`.
 
-**Two axes, same shape.** (1) Algorithm patterns under `techniques/` (e.g.
+**Three axes.** (1) Algorithm patterns under `techniques/` (e.g.
 `techniques/search/binary-search/`, `techniques/hashing/`…), grouped into super-categories
 `techniques/` & `paradigms/` (navigated by *recognising which trick*) and `structures/` (the data
 structures themselves — navigated by *which tool fits + what it costs*); nesting = "more specific
@@ -38,7 +38,10 @@ case of parent." (2) Front-end & full-stack solutions under
 debounce), **UI component builds** (React/TSX, possibly multi-file — ship component file(s) +
 `solution.ts` for extractable pure logic — e.g. Data Table pagination), **JS/TS knowledge
 questions**. References: `frontend/rate-limiting/debounce/README.md` (primitive),
-`frontend/pagination/data-table/README.md` (component build).
+`frontend/pagination/data-table/README.md` (component build). (3) **Domain** knowledge under
+`domains/<domain>/` — things you *build*, not tricks you *spot* (e.g. `domains/fintech/`: money,
+ledgers, idempotency), navigated by domain; uses the **building-block shape** below. Reference:
+`domains/fintech/README.md`.
 
 1. **Title** — `# <Trick> — <one-line plain gist>`
 2. **## TL;DR**
@@ -75,6 +78,15 @@ unlocks** — links to the `techniques/`/`paradigms/` notes that *need* it (the 
 this is the link, not a new home) → **Picture** → **Where you'll meet it** (JS built-in · real life ·
 looks-like-but-isn't *sibling structure*). References: `structures/README.md` (super-category
 overview), `structures/array/README.md` (exemplar).
+
+**Building-block notes (`domains/`) — third shape.** Domain knowledge you *build*, not a trick you
+*spot* (ledgers, idempotency, money types). Adapts the structure shape, middle swapped for **failure
+modes** (money/compliance bugs are the point): **TL;DR** ("Reach for it when — any yes → you need
+this" · "Before you build it, pin down" · "Where money/compliance bugs hide") → **What it really
+is** → **What it costs & risks** (decision → the wrong way → the consequence) → **How to build it**
+(pseudocode, ⚠️ on the money-breaking lines) → **Picture** → **Where you'll meet it** (real systems ·
+libraries/standards · looks-like-but-isn't sibling). References: `domains/fintech/README.md`
+(roadmap), `domains/fintech/architecture/money-representation/README.md` (exemplar).
 
 Do **not** use old sections "Spot it", "Two disguises", "Questions to ask", "Go faster" — folded
 into TL;DR (questions), How it works (bug lines), Where you'll meet it (examples).
