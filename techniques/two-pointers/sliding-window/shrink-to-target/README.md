@@ -48,25 +48,27 @@ breaks that — passing the target is no longer monotonic — and you'd need pre
 Pseudocode (Minimum Size Subarray Sum). The three ⚠️ lines are where every bug hides —
 read those slowly; the rest is filler.
 
-```
-left = 0
-sum  = 0
-best = Infinity                 // sentinel: "no qualifying window yet"
+```ts
+let left = 0;                   // left edge of the window
+let windowSum = 0;              // sum of numbers inside the window
+let bestLength = Infinity;      // shortest qualifying window so far (∞ = none yet)
 
-for right from 0 to n-1:
-    sum += nums[right]          // grow on the right
+for (let right = 0; right < numbers.length; right++) {
+  windowSum += numbers[right];  // grow on the right: pull the entering item in
 
-    while sum >= target:        // ⚠️ WHILE, not if. One `if` peels a single item and
+  while (windowSum >= target) { // ⚠️ WHILE, not if. One `if` peels a single item and
                                 //    misses tighter windows; keep shrinking while it
                                 //    still clears the target.
-        best = min(best, right - left + 1)  // ⚠️ record INSIDE the loop, BEFORE removing
-                                            //    the left item — that window is the
-                                            //    current smallest valid one.
-        sum -= nums[left]
-        left += 1
+    bestLength = Math.min(bestLength, right - left + 1);  // ⚠️ record INSIDE the loop, BEFORE removing
+                                                          //    the left item — that window is the
+                                                          //    current smallest valid one.
+    windowSum -= numbers[left]; // drop the left item out of the window
+    left += 1;
+  }
+}
 
-return best == Infinity ? 0 : best   // ⚠️ turn the sentinel into 0. Returning Infinity
-                                     //    (or a wrong 0 mid-run) breaks the "none" contract.
+return bestLength === Infinity ? 0 : bestLength;   // ⚠️ turn the sentinel into 0. Returning Infinity
+                                                   //    (or a wrong 0 mid-run) breaks the "none" contract.
 ```
 
 Lock these three in and it's O(n) and correct: **shrink with `while`**, **record the min before dropping the left**, **map the ∞ sentinel to `0`**.
@@ -74,13 +76,13 @@ Lock these three in and it's O(n) and correct: **shrink with `while`**, **record
 ## Picture
 ```mermaid
 flowchart TD
-    A[left = 0, sum = 0, best = Infinity] --> B{more items? right ++}
-    B -- no --> Y[best == Infinity ? 0 : best]
-    B -- yes --> C[sum += nums of right]
-    C --> D{sum >= target?}
+    A[left = 0, windowSum = 0, bestLength = Infinity] --> B{more items? right ++}
+    B -- no --> Y[bestLength == Infinity ? 0 : bestLength]
+    B -- yes --> C[windowSum += numbers[right]]
+    C --> D{windowSum >= target?}
     D -- no --> B
-    D -- yes --> E[best = min of best, right − left + 1]
-    E --> F[sum −= nums of left; left ++]
+    D -- yes --> E[bestLength = min of bestLength, right − left + 1]
+    E --> F[windowSum −= numbers[left]; left ++]
     F --> D
 ```
 

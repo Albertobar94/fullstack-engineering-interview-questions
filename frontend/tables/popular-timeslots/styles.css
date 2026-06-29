@@ -1,0 +1,88 @@
+/* Minimal styling for the two timeslot views. Tokens up top so spacing/colour
+   are not hardcoded all over. */
+.timeslots {
+  --gap: 12px;
+  --muted: #9aa0a6;
+  --top-bg: #fff3cd;
+  --top-fg: #7a5d00;
+  --border: #e0e0e0;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.timeslots--loading {
+  color: var(--muted);
+  padding: var(--gap);
+}
+
+/* View 1 — ragged columns, one per day. */
+.columns {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
+}
+
+.day {
+  flex: 1 1 0;
+  min-width: 96px;
+}
+
+.day__name {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.day__times {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.day__times li {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  font-variant-numeric: tabular-nums;
+}
+
+/* View 2 — the rectangular pivot grid. */
+.schedule {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule th,
+.schedule td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.schedule th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Empty cell: visually recede so present slots pop. */
+.cell--empty {
+  color: var(--muted);
+}
+
+/* The single most popular slot — highlighted in both views. */
+.cell--top {
+  background: var(--top-bg);
+  color: var(--top-fg);
+  font-weight: 700;
+}

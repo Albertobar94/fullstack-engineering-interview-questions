@@ -31,17 +31,17 @@ one step (`O(1)`), so the entire thing is one pass (`O(n)`).
 Pseudocode. The one ⚠️ line is where every bug in this trick lives — read it slowly;
 the rest is filler.
 
-```
-seen = empty table            // value -> index
-
-for i, x in nums:
-    need = target - x         // the exact partner that completes the pair
-
-    if need is in seen:        // ⚠️ CHECK before you STORE.
-        return [seen[need], i] //    Storing x first would let x pair with ITSELF,
-                               //    and would break the honest [3,3] case below.
-
-    seen[x] = i               // only now record the current item and move on
+```ts
+const seenValueToIndex = new Map<number, number>(); // number → where we saw it
+for (let i = 0; i < nums.length; i++) {
+  const current = nums[i];                  // number we're on
+  const partnerNeeded = target - current;   // what completes the pair
+  // ⚠️ check BEFORE storing, else current pairs with itself ([3,3])
+  if (seenValueToIndex.has(partnerNeeded)) {
+    return [seenValueToIndex.get(partnerNeeded)!, i];
+  }
+  seenValueToIndex.set(current, i);         // record it, move on
+}
 
 // fell through → no pair exists (LeetCode guarantees one, so this never hits)
 ```
@@ -52,15 +52,15 @@ of a valid pair is the one that finds the **first** (already sitting in the tabl
 you reach the second.
 
 Lock this in and it can't pair a number with itself or miss a duplicate:
-**check the table for `need` BEFORE storing the current item; key by value → index.**
+**check the table for `partnerNeeded` BEFORE storing the current item; key by value → index.**
 
 ## Picture
 ```mermaid
 flowchart TD
-    A[seen = empty table] --> B[take next number x]
-    B --> C{is target − x already in seen?}
-    C -- yes --> D[return seen position + current position]
-    C -- no --> E[store x → its index in seen]
+    A[seenValueToIndex = empty table] --> B[take next number: current]
+    B --> C{is target − current already seen?}
+    C -- yes --> D[return stored position + current position]
+    C -- no --> E[store current → its index]
     E --> B
 ```
 

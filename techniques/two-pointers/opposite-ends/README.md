@@ -34,32 +34,36 @@ only push the result one known direction, so you never have to look back.
 Pseudocode (Two Sum II — sorted input). The three ⚠️ lines are where every bug hides —
 read those slowly; the rest is filler.
 
-```
-left  = 0
-right = n - 1                    // ⚠️ the data MUST be sorted. The whole trick rests
-                                 //    on this — on unsorted input the comparison lies
-                                 //    and you'll silently return wrong pairs.
+```ts
+let left = 0;                          // marker at the small end
+let right = sorted.length - 1;         // ⚠️ the data MUST be sorted; marker at the big end.
+                                       //    The whole trick rests on this — on unsorted
+                                       //    input the comparison lies and you'll silently
+                                       //    return wrong pairs.
 
-while left < right:              // ⚠️ < , not <= . With <= the two markers can land
-                                 //    on the SAME index and you'd pair an element with
-                                 //    itself — which the problem forbids.
+while (left < right) {                 // ⚠️ < , not <= . With <= the two markers can land
+                                       //    on the SAME index and you'd pair an element with
+                                       //    itself — which the problem forbids.
 
-    sum = a[left] + a[right]
+  const pairSum = sorted[left] + sorted[right];   // total of the two ends right now
 
-    if sum == target:
-        return [left + 1, right + 1]  // ⚠️ +1 — LeetCode #167 wants 1-BASED indices.
-                                      //    Returning [left, right] is the classic slip.
+  if (pairSum === target) {
+    return [left + 1, right + 1];      // ⚠️ +1 — LeetCode #167 wants 1-BASED indices.
+                                       //    Returning [left, right] is the classic slip.
+  }
 
-    else if sum < target:
-        left = left + 1          // need a BIGGER total → move left to a larger number
-    else:
-        right = right - 1        // need a SMALLER total → move right to a smaller number
+  if (pairSum < target) {
+    left++;                            // need a BIGGER total → move left to a larger number
+  } else {
+    right--;                           // need a SMALLER total → move right to a smaller number
+  }
+}
 
 // markers met → no pair (for #167 the problem guarantees one exists)
 ```
 
 Why it can't miss a pair: sorted order means moving `left` right *only raises* the sum
-and moving `right` left *only lowers* it. When the sum is too big, `a[right]` paired
+and moving `right` left *only lowers* it. When the sum is too big, `sorted[right]` paired
 with anything to its left is **also** too big — so dropping `right` discards only
 impossible options. One sweep covers them all.
 
@@ -70,8 +74,8 @@ Lock these three in and it's correct: **data sorted**, **`while left < right`**,
 flowchart TD
     A[left = start, right = end] --> B{left < right?}
     B -- no --> F[stop: no pair]
-    B -- yes --> C[sum = a left + a right]
-    C --> D{compare sum to target}
+    B -- yes --> C[pairSum = sorted left + sorted right]
+    C --> D{compare pairSum to target}
     D -- equal --> E[return left, right]
     D -- too small --> G[left++  → bigger]
     D -- too big --> H[right--  → smaller]

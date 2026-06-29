@@ -45,27 +45,28 @@ halves every step, so even a million items finish in ~20 looks.
 Pseudocode. The four ⚠️ lines are where every binary-search bug hides — read those
 slowly; the rest is filler.
 
-```
-left  = 0
-right = n - 1                    // ⚠️ LAST index, not n. (right is INCLUSIVE)
+```ts
+let left = 0;                      // first index still in range
+let right = sorted.length - 1;     // ⚠️ LAST index, not the length. (right is INCLUSIVE)
 
-while left <= right:             // ⚠️ <= , not < . When left == right one item
-                                 //    still needs checking; using < skips it.
+while (left <= right) {            // ⚠️ <= , not < . When left === right one item
+                                   //    still needs checking; using < skips it.
 
-    mid = left + (right - left) / 2   // ⚠️ round DOWN, and write it THIS way
-                                      //    (not (left+right)/2) so it can't overflow
+  const mid = left + Math.floor((right - left) / 2); // ⚠️ round DOWN, written THIS way
+                                                      //    (not (left+right)/2) so it can't overflow
 
-    if value[mid] == target:
-        return mid                    // found it
+  if (sorted[mid] === target) {    // probed value equals what we want
+    return mid;                    // found it
+  } else if (sorted[mid] < target) {
+    left = mid + 1;                // ⚠️ mid + 1 , never `left = mid`. You already
+                                   //    checked mid; if you don't step past it the
+                                   //    window stops shrinking → INFINITE LOOP.
+  } else {
+    right = mid - 1;               // ⚠️ mid - 1 , same reason → INFINITE LOOP.
+  }
+}
 
-    else if value[mid] < target:
-        left = mid + 1           // ⚠️ mid + 1 , never `left = mid`. You already
-                                 //    checked mid; if you don't step past it the
-                                 //    window stops shrinking → INFINITE LOOP.
-    else:
-        right = mid - 1          // ⚠️ mid - 1 , same reason.
-
-return -1                        // range emptied → not in the list
+return -1;                         // range emptied → not in the list
 ```
 
 Lock these four in and it can't loop forever or miss an element:
@@ -77,7 +78,7 @@ flowchart TD
     A[left = 0, right = lastIndex] --> B{left <= right?}
     B -- no --> Z[return -1: not found]
     B -- yes --> C[mid = left + floor of right - left over 2]
-    C --> D{compare nums of mid to target}
+    C --> D{compare sorted of mid to target}
     D -- equal --> E[return mid]
     D -- target bigger --> F[left = mid + 1]
     D -- target smaller --> G[right = mid - 1]

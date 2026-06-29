@@ -46,27 +46,29 @@ window has *already* moved past it — left is at index 2. Snapping left back to
 Pseudocode (Longest Substring Without Repeating Characters). The three ⚠️ lines are
 where every bug hides — read those slowly; the rest is filler.
 
-```
-lastSeen = empty map            // item -> last index seen
-left = 0
-best = 0
+```ts
+const lastSeenIndex = new Map<string, number>(); // char -> last index we saw it
+let left = 0;                                     // left edge of the window
+let bestLength = 0;                               // longest run with no repeat
 
-for right from 0 to n-1:
-    item = s[right]
+for (let right = 0; right < s.length; right++) {  // right edge: the char entering now
+  const char = s[right];                          // the char arriving on the right
 
-    if item in lastSeen AND lastSeen[item] >= left:
-        left = lastSeen[item] + 1   // ⚠️ jump left PAST the old copy. The `>= left`
-                                    //    check (or a max()) is the "abba" trap: without
-                                    //    it a stale index drags left BACKWARD and you
-                                    //    over-count.
+  if (lastSeenIndex.has(char) && lastSeenIndex.get(char)! >= left) {
+    left = lastSeenIndex.get(char)! + 1;  // ⚠️ jump left PAST the old copy. The `>= left`
+                                          //    check (or a max()) is the "abba" trap: without
+                                          //    it a stale index drags left BACKWARD and you
+                                          //    over-count.
+  }
 
-    lastSeen[item] = right          // ⚠️ record AFTER the jump, so the map holds the
-                                    //    newest position of this item.
+  lastSeenIndex.set(char, right);         // ⚠️ record AFTER the jump, so the map holds the
+                                          //    newest position of this char.
 
-    best = max(best, right - left + 1) // ⚠️ measure only now — the window is valid again.
-                                       //    +1 because both ends are inclusive.
+  bestLength = Math.max(bestLength, right - left + 1); // ⚠️ measure only now — the window is valid again.
+                                                       //    +1 because both ends are inclusive.
+}
 
-return best
+return bestLength;
 ```
 
 Lock these three in and it's O(n) and correct: **`>= left` / `max()` guard on the jump**, **update `lastSeen` after jumping**, **score `right − left + 1` after the window is fixed**.
@@ -74,14 +76,14 @@ Lock these three in and it's O(n) and correct: **`>= left` / `max()` guard on th
 ## Picture
 ```mermaid
 flowchart TD
-    A[left = 0, best = 0, empty map] --> B{more items? right ++}
-    B -- no --> Z[return best]
-    B -- yes --> C{item seen at index >= left?}
-    C -- yes --> D[left = lastSeen of item + 1]
+    A[left = 0, bestLength = 0, empty map] --> B{more items? right ++}
+    B -- no --> Z[return bestLength]
+    B -- yes --> C{char seen at index >= left?}
+    C -- yes --> D[left = lastSeenIndex of char + 1]
     C -- no --> E[keep left]
-    D --> F[lastSeen of item = right]
+    D --> F[lastSeenIndex of char = right]
     E --> F
-    F --> G[best = max of best, right − left + 1]
+    F --> G[bestLength = max of bestLength, right − left + 1]
     G --> B
 ```
 
