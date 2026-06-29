@@ -1,7 +1,7 @@
 # Inform all employees — DFS the org tree for the longest weighted path
 
 > **4 of 4 graph techniques.** New here? Read the [graph techniques overview](../) and [`bfs-dfs`](../bfs-dfs/)
-> first — and note this is really a **tree** DFS (see [`techniques/trees`](../trees/)), since an org
+> first — and note this is really a **tree** DFS (see [`techniques/trees`](../../trees/)), since an org
 > chart has one manager per person. **This one:** the message reaches everyone only when the *slowest*
 > chain finishes — the **longest root-to-leaf sum** of inform-times. Canonical problem: #1376 Time Needed to Inform All Employees.
 

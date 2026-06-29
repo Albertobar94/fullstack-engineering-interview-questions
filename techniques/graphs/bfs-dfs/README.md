@@ -103,7 +103,7 @@ flowchart TD
 **Looks like it but ISN'T:**
 - **Weighted** shortest path → **Dijkstra** ([`dijkstra`](../dijkstra/)) — BFS rings assume equal-cost steps.
 - **Ordering by prerequisites** → **topological sort** ([`topological-sort`](../topological-sort/)) — needs in-degrees / a DAG, not just a visit.
-- A **grid** → the same walks with implicit neighbours → [`techniques/grid`](../grid/).
+- A **grid** → the same walks with implicit neighbours → [`techniques/grid`](../../grid/).
 
 ---
 
