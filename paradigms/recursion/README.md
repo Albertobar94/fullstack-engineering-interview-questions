@@ -35,7 +35,7 @@ work in half** each call.
 
 ## Looks like it but ISN'T
 - A **flat list** walked end-to-end → a plain loop; recursion just adds stack cost and overflow risk.
-- **Dynamic programming** — recursion where the *same* subproblem repeats (overlapping); the fix is to *remember* answers (memoize). Tell: subproblems **overlap** (→ DP) or each piece visited **once** (→ plain recursion)?
+- **[Dynamic programming](../dynamic-programming/)** — recursion where the *same* subproblem repeats (overlapping); the fix is to *remember* answers (memoize). Tell: subproblems **overlap** (→ DP) or each piece visited **once** (→ plain recursion)?
 - **Backtracking** — recursion that tries a choice, recurses, then **undoes** it (subsets, permutations). Recursion + try/undo. (Planned.)
 
 ---

@@ -90,7 +90,7 @@ inner check becomes O(n), blowing the whole algorithm up:
   double loop.
 - **[Group-by / bucketing](../../techniques/hashing/grouping/)** — `key → list of items that share
   it`; one pass drops each item into its bucket in O(1) (e.g. anagrams keyed by sorted letters).
-- **[Memoization → dynamic programming](../../paradigms/recursion/)** — cache `args → result` in a
+- **[Memoization → dynamic programming](../../paradigms/dynamic-programming/)** — cache `args → result` in a
   map; "computed this already?" is an O(1) probe that turns exponential re-computation into linear.
 - **Counting / frequency tally** — `value → count`, `map.set(v, (map.get(v) ?? 0) + 1)` in O(1).
 - **Dedupe** — drop everything into a map/set keyed by the dup-defining field, read out unique.
