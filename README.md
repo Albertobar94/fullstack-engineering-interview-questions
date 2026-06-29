@@ -66,10 +66,10 @@ techniques/                # the moves you apply to data
   bit-manipulation/        # divide by doubling — and the galloping-search twin
 structures/                # the data structures themselves — what each costs + why algos need it
   array/                   # contiguous block — O(1) index; foundation of the techniques above
-  hashmap/  set/           # store/find by name; "seen it?"                  (planned)
-  stack/  queue/           # LIFO pile; FIFO line                            (planned)
-  heap/                    # always hands you the smallest/biggest next      (planned)
-  trees/  graphs/          # branching / linked data                         (planned)
+  hashmap/  set/           # store/find by name; "seen it?"
+  stack/  queue/           # LIFO pile; FIFO line
+  heap/                    # always hands you the smallest/biggest next
+  trees/  graphs/          # branching / linked data
 paradigms/                 # whole problem-solving strategies
   recursion/               # solve via a smaller copy of itself — base case + call stack
   recursion-backtracking/  # subsets / orderings, puzzles                  (planned)
@@ -139,6 +139,13 @@ Table of contents — and a recognition lookup. Add a row when you write a note.
 | Pivot / group-by (flat rows → grid) | [`frontend/tables/popular-timeslots`](./frontend/tables/popular-timeslots/) | flat `{row-key, col-key}` records reshaped into a 2D table; one axis → columns, other → rows; **rectangular with blanks** for missing cells (vs ragged group-by); calendar/heatmap, SQL `PIVOT`, pandas `pivot_table` |
 | Recursion (a smaller copy of itself) | [`paradigms/recursion`](./paradigms/recursion/) | **nested / branching** data (tree, nested JSON, file system); base case + shrink toward it + combine; tree depth (#104), merge sort, deep-clone/flatten; (vs a plain loop for flat data; vs **DP** when subproblems overlap) |
 | **Array** (the contiguous block — a *structure*) | [`structures/array`](./structures/array/) | picking the *data structure*: need **O(1) index** (binary search, two-pointers, sliding-window, prefix-sum all require it) + end-append; rarely insert/remove in the middle; (vs **linked list** = O(1) mid-insert but O(n) index) |
+| **Hash map** (by-key drawer — a *structure*) | [`structures/hashmap`](./structures/hashmap/) | find by **name/key** in O(1); counting, dedupe, memoization, two-sum complement; key→value, **no order** (vs array by position; vs set = key-only) |
+| **Set** (dedupe bag — a *structure*) | [`structures/set`](./structures/set/) | "have I **seen** this?" O(1) membership; `visited` guard, distinct-window, dedupe (vs array `includes` O(n); vs hash map = key→value) |
+| **Stack** (LIFO pile — a *structure*) | [`structures/stack`](./structures/stack/) | **most-recent first**; brackets, undo, iterative DFS, expression eval; the call stack itself (vs queue = FIFO) |
+| **Queue** (FIFO line — a *structure*) | [`structures/queue`](./structures/queue/) | **first-come first-served**; BFS / level-order, scheduling, event loop; use a **ring buffer**, not `arr.shift()` O(n) (vs stack = LIFO) |
+| **Heap** (min/max-first — a *structure*) | [`structures/heap`](./structures/heap/) | "give me the **smallest/biggest next**"; top-k, merge-k, running median, Dijkstra; a tree packed in a flat array (vs sorted array; vs BST) |
+| **Tree / BST** (ordered branching — a *structure*) | [`structures/trees`](./structures/trees/) | **ordered** search + range + sorted scan, O(log n) *if balanced*; in-order = sorted (vs heap = min/max only; vs hash map = unordered) |
+| **Graph** (dots + lines — a *structure*) | [`structures/graphs`](./structures/graphs/) | things **connected** to things, cycles allowed; BFS/DFS, topological sort, shortest path, union-find; needs a `visited` set (vs tree = no cycles) |
 
 > First two rows = **same question** (Two Sum), opposite inputs: **sorted → two pointers** (O(1) space), **unsorted → hashmap** (O(n) space). Recognizing *which* is the whole skill. Likewise last two (debounce / throttle) = **same flood**, opposite needs: **want only the end → debounce**, **want steady updates → throttle**.
 >

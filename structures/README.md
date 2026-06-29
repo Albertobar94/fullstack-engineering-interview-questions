@@ -24,12 +24,13 @@ Swap the structure and the *same code* changes complexity class. So the real ski
 | This structure… | makes these cheap… | …which unlocks |
 |---|---|---|
 | **[Array](./array/)** | O(1) index, append | [binary search](../techniques/search/binary-search/find-target/), [two-pointers](../techniques/two-pointers/opposite-ends/), [sliding window](../techniques/two-pointers/sliding-window/), [prefix-sum](../techniques/prefix-sum/highest-altitude/) |
-| **Hash map** (planned) | O(1) lookup/insert by key | [two-sum](../techniques/hashing/two-sum/), [group-by](../techniques/hashing/grouping/), counting, dedupe, memoization |
-| **Stack** (planned) | O(1) push/pop one end | DFS, bracket matching, monotonic-stack, undo |
-| **Queue / deque** (planned) | O(1) add-back / remove-front | BFS, sliding-window max, scheduling |
-| **Heap** (planned) | O(1) peek min/max, O(log n) push/pop | top-k, merge-k, running median, Dijkstra |
-| **Tree / BST** (planned) | O(log n) ordered search/insert | range queries, autocomplete, ordered maps |
-| **Graph** (planned) | store node→neighbours | BFS/DFS, topological sort, shortest path, union-find |
+| **[Hash map](./hashmap/)** | O(1) lookup/insert by key | [two-sum](../techniques/hashing/two-sum/), [group-by](../techniques/hashing/grouping/), counting, dedupe, memoization |
+| **[Set](./set/)** | O(1) membership | dedupe, `visited` guard ([recursion](../paradigms/recursion/), graph traversal), [distinct window](../techniques/two-pointers/sliding-window/variable-distinct/) |
+| **[Stack](./stack/)** | O(1) push/pop one end | DFS, bracket matching, monotonic-stack, undo |
+| **[Queue / deque](./queue/)** | O(1) add-back / remove-front | BFS, sliding-window max, scheduling |
+| **[Heap](./heap/)** | O(1) peek min/max, O(log n) push/pop | top-k, merge-k, running median, Dijkstra |
+| **[Tree / BST](./trees/)** | O(log n) ordered search/insert | range queries, autocomplete, ordered maps |
+| **[Graph](./graphs/)** | store node→neighbours | BFS/DFS, topological sort, shortest path, union-find |
 
 (Structure-bound *algorithms* — monotonic stack, BFS/DFS, topological sort, union-find — live under
 [`techniques/`](../techniques/); the structure note links to them, doesn't house them.)
@@ -39,13 +40,13 @@ Swap the structure and the *same code* changes complexity class. So the real ski
 | Structure | Plain gist | Headline cost | Status |
 |---|---|---|---|
 | **[Array](./array/)** | items packed in a row, reached by position | O(1) index, **O(n) middle insert** | ✅ done |
-| Hash map | a labelled drawer — store/find by name | O(1) avg, **O(n) on a bad day** (collisions/rehash) | planned |
-| Set | a bag that ignores duplicates | O(1) "seen it?" | planned |
-| Stack | a pile — push/pop the **top** (LIFO) | O(1) both | planned |
-| Queue / deque | a line — add back, remove **front** (FIFO) | O(1) both *if* done right | planned |
-| Heap | always hands you the smallest/biggest next | O(log n) push/pop, **O(1) peek** | planned |
-| Tree / BST | branching chart; ordered → searchable | O(log n) *if balanced*, **O(n) if skewed** | planned |
-| Graph | dots joined by lines, no "one parent" rule | depends on representation | planned |
+| **[Hash map](./hashmap/)** | a labelled drawer — store/find by name | O(1) avg, **O(n) on a bad day** (collisions/rehash) | ✅ done |
+| **[Set](./set/)** | a bag that ignores duplicates | O(1) "seen it?" | ✅ done |
+| **[Stack](./stack/)** | a pile — push/pop the **top** (LIFO) | O(1) both | ✅ done |
+| **[Queue / deque](./queue/)** | a line — add back, remove **front** (FIFO) | O(1) both *if* done right | ✅ done |
+| **[Heap](./heap/)** | always hands you the smallest/biggest next | O(log n) push/pop, **O(1) peek** | ✅ done |
+| **[Tree / BST](./trees/)** | branching chart; ordered → searchable | O(log n) *if balanced*, **O(n) if skewed** | ✅ done |
+| **[Graph](./graphs/)** | dots joined by lines, no "one parent" rule | depends on representation | ✅ done |
 
 ## The cost cliff hiding in each
 
