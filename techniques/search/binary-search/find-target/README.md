@@ -1,4 +1,10 @@
-# Binary search — halve a sorted range
+# Binary search (find a target) — halve a sorted range
+
+> **1 of 2 binary-search flavors.** New to binary search? This is the one to read first — it carries
+> the full mechanic and the four bug lines. Read the [family overview](../) for the fork.
+> **This flavor:** find **one** position — an exact value, or the first spot a yes/no test flips.
+> Canonical problems: #704 Binary Search, #278 First Bad Version. Hunting the *range* of a repeated
+> value instead? → [`first-last-position`](../first-last-position/).
 
 ## TL;DR
 

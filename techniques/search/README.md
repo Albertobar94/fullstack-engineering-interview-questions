@@ -16,7 +16,7 @@ Turn an `O(n)` scan into `O(log n)` by halving (or doubling toward) the search s
 
 | Technique | Use it when | Canonical problem |
 |---|---|---|
-| **[Binary search](./binary-search/find-target/)** | bounds **known**, data **sorted** (or a monotonic yes/no over the answer) | #704 Binary Search, #278 First Bad Version |
+| **[Binary search](./binary-search/)** | bounds **known**, data **sorted** (or a monotonic yes/no over the answer) | #704 Binary Search, #278 First Bad Version, #34 First & Last Position |
 | **Binary search on the answer** _(planned)_ | the *answer* range is monotonic — "smallest X that passes a test" | #875 Koko, #1011 Capacity to Ship |
 | **Exponential / galloping** _(planned)_ | bounds **unknown / huge / unbounded** — gallop to a bracket, then binary-search it | first index ≥ key in an unbounded sorted source |
 | **Ternary** _(planned)_ | a **unimodal** function (one peak/valley) rather than sorted values | max of a unimodal array |
@@ -41,4 +41,4 @@ Turn an `O(n)` scan into `O(log n)` by halving (or doubling toward) the search s
 
 ---
 
-Pick a technique: [`binary-search`](./binary-search/find-target/) · on-the-answer _(planned)_ · exponential _(planned)_ · ternary _(planned)_.
+Pick a technique: [`binary-search`](./binary-search/) · on-the-answer _(planned)_ · exponential _(planned)_ · ternary _(planned)_.
