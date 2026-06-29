@@ -90,12 +90,14 @@ A graph is the *substrate*; these structures/paradigms ride on top of it:
   frontier vertex next. On a *weighted* graph "fewest hops" ≠ "shortest distance", so you need the
   heap to keep pulling the cheapest-so-far node.
 
-**Name-only (live under [`techniques/`](../../techniques/), or classic LeetCode):**
-- **BFS shortest path** — LeetCode #1091 (shortest path in binary matrix), #127 (Word Ladder).
-- **DFS / connected components** — #200 (Number of Islands).
-- **Topological sort** (order a DAG by deps) — #207 (Course Schedule).
-- **Union-find** (merge & query clusters) — #547 (Number of Provinces).
-- **Dijkstra / A\*** (shortest path, weighted) — the min-heap algorithms above.
+**The algorithms (built under [`techniques/graphs`](../../techniques/graphs/)):**
+- **[BFS & DFS](../../techniques/graphs/bfs-dfs/)** — reachability, fewest hops, connected components (#1971, #323).
+- **[Topological sort](../../techniques/graphs/topological-sort/)** — order a DAG by deps / detect a cycle (#207 Course Schedule).
+- **[Dijkstra](../../techniques/graphs/dijkstra/)** — shortest path on a weighted graph, min-heap frontier (#743 Network Delay Time).
+- **[Inform employees](../../techniques/graphs/inform-employees/)** — longest weighted root-to-leaf path on a tree-graph (#1376).
+- **On a grid** (implicit neighbours) — [`techniques/grid`](../../techniques/grid/): islands (#200), rotting oranges (#994), walls & gates (#286).
+
+Name-only (planned): **Union-find** (merge & query clusters — #547), **A\*** (heuristic shortest path).
 
 ## Picture
 
