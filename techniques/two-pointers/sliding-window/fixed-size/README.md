@@ -42,22 +42,23 @@ loop-inside-a-loop (O(n·k)).
 Pseudocode (Max Average Subarray I). The three ⚠️ lines are where every bug hides —
 read those slowly; the rest is filler.
 
-```
-windowSum = sum of nums[0 .. k-1]     // ⚠️ SEED the first window before looping. Skip
-                                      //    this and your first comparison is garbage.
+```ts
+let windowSum = numbers.slice(0, windowSize).reduce((sum, value) => sum + value, 0); // total of the k items in the window
+// ⚠️ SEED the first window before looping. Skip this and your first comparison is garbage.
 
-bestSum = windowSum
+let bestSum = windowSum;                   // best window total seen so far
 
-for i from k to n-1:                  // i = the item ENTERING on the right
-    windowSum += nums[i] - nums[i-k]  // ⚠️ add entrant, drop leaver — in ONE line. If you
-                                      //    re-sum the k items here it's O(n*k), the slow trap.
-                                      //    nums[i-k] is the item leaving on the LEFT.
+for (let i = windowSize; i < numbers.length; i++) {  // i = the item ENTERING on the right
+  windowSum += numbers[i] - numbers[i - windowSize]; // ⚠️ add entrant, drop leaver — in ONE line. If you
+                                           //    re-sum the windowSize items here it's O(n*windowSize), the slow trap.
+                                           //    numbers[i - windowSize] is the item leaving on the LEFT.
 
-    bestSum = max(bestSum, windowSum) // ⚠️ only valid because the window is always full now
-                                      //    (we started i at k). Reading a half-built window
-                                      //    early counts too few items.
+  bestSum = Math.max(bestSum, windowSum);  // ⚠️ only valid because the window is always full now
+                                           //    (we started i at windowSize). Reading a half-built window
+                                           //    early counts too few items.
+}
 
-return bestSum / k                    // divide once; dividing each step adds float noise
+return bestSum / windowSize;               // divide once; dividing each step adds float noise
 ```
 
 Lock these three in and it stays O(n) and correct: **seed before the loop**, **slide with `+nums[i] − nums[i−k]`**, **score only the full window**.
@@ -65,10 +66,10 @@ Lock these three in and it stays O(n) and correct: **seed before the loop**, **s
 ## Picture
 ```mermaid
 flowchart TD
-    A[seed windowSum = sum of first k] --> B[bestSum = windowSum]
-    B --> C{more items? i from k to n-1}
-    C -- no --> Z[return bestSum / k]
-    C -- yes --> D[windowSum += nums of i  −  nums of i−k]
+    A[seed windowSum = sum of first windowSize] --> B[bestSum = windowSum]
+    B --> C{more items? i from windowSize to numbers.length-1}
+    C -- no --> Z[return bestSum / windowSize]
+    C -- yes --> D[windowSum += numbers[i] − numbers[i−windowSize]]
     D --> E[bestSum = max of bestSum, windowSum]
     E --> C
 ```

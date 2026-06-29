@@ -51,39 +51,42 @@ worth, then repeat on the leftover.
 Pseudocode. The three ⚠️ lines are where every bug hides — read those slowly; the
 rest is filler.
 
-```
-if dividend == INT_MIN and divisor == -1:
-    return INT_MAX          // ⚠️ THE clamp. This is the one quotient that
-                            //    overflows 32-bit (2^31 doesn't fit). Without
-                            //    this guard it wraps to a wrong negative.
+```ts
+if (dividend === INT_MIN && divisor === -1) {
+  return INT_MAX;         // ⚠️ THE clamp. This is the one quotient that
+                          //    overflows 32-bit (2^31 doesn't fit). Without
+                          //    this guard it wraps to a wrong negative.
+}
 
-sign = (dividend < 0) XOR (divisor < 0)   // ⚠️ negative only when EXACTLY one
-                                          //    input is negative; two negatives
-                                          //    cancel. Get this wrong → wrong sign.
-a = |dividend|
-b = |divisor|
-result = 0
+const isNegative = (dividend < 0) !== (divisor < 0);   // ⚠️ true only when EXACTLY one
+                                                       //    input is negative; two negatives
+                                                       //    cancel. Get this wrong → wrong sign.
+let remaining = Math.abs(dividend);   // what's still left to divide
+const absDivisor = Math.abs(divisor); // the divisor's size
+let quotient = 0;                     // the answer, summed up
 
-while a >= b:
-    temp     = b            // current chunk = b * 2^k
-    multiple = 1            // ...worth this many divisors (2^k)
+while (remaining >= absDivisor) {
+  let chunk = absDivisor;     // a doubled copy of the divisor (absDivisor × 2^k)
+  let chunkWorth = 1;         // how many divisors that chunk equals (2^k)
 
-    while a >= temp + temp:       // ⚠️ double with temp + temp , NEVER temp << 1.
-        temp     += temp          //    In JS `<<` is 32-bit SIGNED. Once temp hits
-        multiple += multiple      //    2^30, temp<<1 leaves the signed range and two
-                                  //    more shifts COLLAPSE temp to 0 (2^30 → -2^31
-                                  //    → 0). Then 0<<1 stays 0, so `a >= temp<<1` is
-                                  //    true forever → INFINITE LOOP. `+` is safe:
-                                  //    JS numbers are 64-bit floats, exact past 2^31.
+  while (remaining >= chunk + chunk) {  // ⚠️ double with chunk + chunk, NEVER chunk << 1.
+    chunk += chunk;                     //    In JS `<<` is 32-bit SIGNED. Once chunk hits
+    chunkWorth += chunkWorth;           //    2^30, chunk<<1 leaves the signed range and two
+                                        //    more shifts COLLAPSE chunk to 0 (2^30 → -2^31
+                                        //    → 0). Then 0<<1 stays 0, so `remaining >= chunk<<1`
+                                        //    is true forever → INFINITE LOOP. `+` is safe:
+                                        //    JS numbers are 64-bit floats, exact past 2^31.
+  }
 
-    a      -= temp          // take the biggest chunk that fit
-    result += multiple      // bank its worth
+  remaining -= chunk;         // take the biggest chunk that fit
+  quotient += chunkWorth;     // bank its worth
+}
 
-return sign ? -result : result
+return isNegative ? -quotient : quotient;
 ```
 
 **Why doubling makes it fast (the part to slow down for):** after the inner loop,
-`temp` is the largest `b × 2^k` that's `≤ a`. Each chunk is found in ~log steps, and
+`chunk` is the largest `absDivisor × 2^k` that's `≤ remaining`. Each chunk is found in ~log steps, and
 there are ~log chunks → about `O(log² n)` (roughly "number of doublings, squared").
 That's **not** near-O(1): it only stays small because the **input is capped at 32
 bits**, so the number of doublings is ≤ ~32 and the whole thing is ≤ ~32×32 ≈ 1024
@@ -95,13 +98,13 @@ Lock these three in and it can't loop forever, overflow, or flip sign:
 ## Picture
 ```mermaid
 flowchart TD
-    A[clamp INT_MIN/-1, find sign, a=|dividend|, b=|divisor|] --> B{a >= b?}
-    B -- no --> Z[return sign * result]
-    B -- yes --> C[temp = b, multiple = 1]
-    C --> D{a >= temp + temp?}
-    D -- yes --> E[temp += temp; multiple += multiple]
+    A[clamp INT_MIN/-1, find isNegative, remaining=|dividend|, absDivisor=|divisor|] --> B{remaining >= absDivisor?}
+    B -- no --> Z[return isNegative ? -quotient : quotient]
+    B -- yes --> C[chunk = absDivisor, chunkWorth = 1]
+    C --> D{remaining >= chunk + chunk?}
+    D -- yes --> E[chunk += chunk; chunkWorth += chunkWorth]
     E --> D
-    D -- no --> F[a -= temp; result += multiple]
+    D -- no --> F[remaining -= chunk; quotient += chunkWorth]
     F --> B
 ```
 

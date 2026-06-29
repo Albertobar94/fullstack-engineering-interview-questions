@@ -45,34 +45,52 @@ ee.emit("nothing");   // returns false — no one listening
 ## How it works
 Pseudocode. The three ⚠️ lines are where every emitter bug hides.
 
-```
-events = new Map()                      // name -> Function[]
+```ts
+const listenersByEvent = new Map<string, Function[]>(); // name → its listeners
 
-on(name, fn):
-    list = events.get(name)
-    if no list: events.set(name, [fn])
-    else: list.push(fn)                 // duplicates allowed (same fn twice)
-    return this                         // chainable
+on(eventName: string, listener: Function): this {
+  const listeners = listenersByEvent.get(eventName); // current list, or undefined
+  if (listeners === undefined) {
+    listenersByEvent.set(eventName, [listener]);
+  } else {
+    listeners.push(listener);            // duplicates allowed (same listener twice)
+  }
+  return this;                           // chainable
+}
 
-off(name, fn):
-    list = events.get(name); if none: return
-    i = list.indexOf(fn)
-    if i != -1: list.splice(i, 1)       // ⚠️ remove ONE instance, not every copy
-    if list empty: events.delete(name)
-    return this
+off(eventName: string, listener: Function): this {
+  const listeners = listenersByEvent.get(eventName); // current list, or undefined
+  if (listeners === undefined) {
+    return this;
+  }
+  const index = listeners.indexOf(listener); // first match, or -1
+  if (index !== -1) {
+    listeners.splice(index, 1);          // ⚠️ remove ONE instance, not every copy
+  }
+  if (listeners.length === 0) {
+    listenersByEvent.delete(eventName);
+  }
+  return this;
+}
 
-emit(name, ...args):
-    list = events.get(name)
-    if none or empty: return false      // nobody heard it
-    for fn of list.slice():             // ⚠️ SNAPSHOT — a listener may on()/off()
-        fn.apply(this, args)            //    mid-loop; looping the live array skips
-    return true                         //    listeners or loops forever
+emit(eventName: string, ...args: unknown[]): boolean {
+  const listeners = listenersByEvent.get(eventName); // current list, or undefined
+  if (listeners === undefined || listeners.length === 0) {
+    return false;                        // nobody heard it
+  }
+  for (const listener of listeners.slice()) { // ⚠️ SNAPSHOT — a listener may on()/off()
+    listener.apply(this, args);          //    mid-loop; looping the live array skips
+  }
+  return true;                           //    listeners or loops forever
+}
 
-once(name, fn):
-    wrapper = (...args) =>
-        off(name, wrapper)              // ⚠️ remove the WRAPPER (first), then run —
-        fn.apply(this, args)            //    a re-emit inside fn must not fire it again
-    return on(name, wrapper)
+once(eventName: string, listener: Function): this {
+  const onceWrapper = (...args: unknown[]): void => { // wraps listener, self-removes
+    off(eventName, onceWrapper);         // ⚠️ remove the WRAPPER (first), then run —
+    listener.apply(this, args);          //    a re-emit inside listener must not fire it again
+  };
+  return on(eventName, onceWrapper);
+}
 ```
 
 Lock these in: **`emit` over `.slice()`**, **`off` splices one**, **`once` removes the wrapper before running**.
@@ -80,13 +98,13 @@ Lock these in: **`emit` over `.slice()`**, **`off` splices one**, **`once` remov
 ## Picture
 ```mermaid
 flowchart TD
-    A[on name, fn] --> B[events: name -> push fn]
-    C[emit name, args] --> D{any listeners for name?}
+    A[on eventName, listener] --> B[listenersByEvent: eventName -> push listener]
+    C[emit eventName, args] --> D{any listeners for eventName?}
     D -- no --> E[return false]
     D -- yes --> F[copy the list: slice]
-    F --> G[call each fn with args, in order]
+    F --> G[call each listener with args, in order]
     G --> H[return true]
-    I[off name, fn] --> J[indexOf then splice ONE]
+    I[off eventName, listener] --> J[indexOf then splice ONE]
 ```
 
 ## Where you'll meet it (practice + recognition)

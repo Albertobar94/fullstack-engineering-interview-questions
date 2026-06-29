@@ -48,21 +48,21 @@ seed bug.
 Pseudocode. The one ⚠️ line is where every bug in this trick hides — the rest is a
 plain loop.
 
-```
-total = 0
-best  = 0                     // ⚠️ THE SEED. 0 works only because the start point
+```ts
+let altitude = 0;             // running height as we walk
+let highest = 0;              // ⚠️ THE SEED. 0 works only because the start point
                               //    counts as a real point at altitude 0. If the
                               //    start did NOT count and totals could go negative,
                               //    seeding 0 reports a fake 0 instead of the true
                               //    (negative) best. Then seed the first value, or
                               //    -Infinity. Getting this wrong is the #1 bug.
 
-for each step in changes:
-    total = total + step      // add the delta to the running total
-    if total > best:
-        best = total          // beat the record → remember it
+for (const change of changes) {
+  altitude += change;         // apply the step
+  highest = Math.max(highest, altitude);
+}
 
-return best                   // the highest total ever reached
+return highest;               // the highest altitude ever reached
 ```
 
 Lock the seed in and the rest can't go wrong:
@@ -71,11 +71,11 @@ Lock the seed in and the rest can't go wrong:
 ## Picture
 ```mermaid
 flowchart TD
-    A[total = 0, best = 0] --> B{more steps?}
-    B -- no --> Z[return best]
-    B -- yes --> C[total += next step]
-    C --> D{total > best?}
-    D -- yes --> E[best = total]
+    A[altitude = 0, highest = 0] --> B{more steps?}
+    B -- no --> Z[return highest]
+    B -- yes --> C[altitude += next step]
+    C --> D{altitude > highest?}
+    D -- yes --> E[highest = altitude]
     D -- no --> B
     E --> B
 ```

@@ -49,22 +49,30 @@ A tiny worked example — **36 users, 10 per page**:
 ## How it works
 Pseudocode. The four ⚠️ lines are where every pagination bug hides — the rest is wiring.
 
-```
-function totalPages(total, perPage):
-    if perPage <= 0: return 1          // ⚠️ guard: perPage 0 → total/0 → Infinity pages
-    return max(1, ceil(total / perPage)) // ⚠️ ceil (partial page counts) + floor at 1
-                                         //    (empty list still reads "1 of 1")
+```ts
+function totalPages(totalItems: number, perPage: number): number {
+  if (perPage <= 0) {                      // perPage the user picked (5 / 10 / 20…)
+    return 1;                              // ⚠️ guard: perPage 0 → totalItems/0 → Infinity pages
+  }
+  const pageCount = Math.max(1, Math.ceil(totalItems / perPage)); // how many pages exist
+                                           // ⚠️ ceil (partial page counts) + floor at 1
+                                           //    (empty list still reads "1 of 1")
+  return pageCount;
+}
 
-function paginate(items, page, perPage):
-    pages    = totalPages(items.length, perPage)
-    safePage = min(max(page, 1), pages)  // ⚠️ clamp BOTH ends — Prev past 1 / Next past last
-                                         //    must not slice off the list. Re-clamping here,
-                                         //    every call, is what fixes the "perPage changed
-                                         //    and my page is now out of range" bug.
-    start    = (safePage - 1) * perPage  // ⚠️ 1-based page → 0-based index. The "- 1" is THE
-                                         //    off-by-one: drop it and page 1 skips the first
-                                         //    `perPage` rows.
-    return items.slice(start, start + perPage)
+function paginate<T>(items: readonly T[], page: number, perPage: number): T[] {
+  const pageCount = totalPages(items.length, perPage);          // last valid page number
+  const safePage = Math.min(Math.max(page, 1), pageCount);      // requested page pulled into [1, pageCount]
+                                           // ⚠️ clamp BOTH ends — Prev past 1 / Next past last
+                                           //    must not slice off the list. Re-clamping here,
+                                           //    every call, is what fixes the "perPage changed
+                                           //    and my page is now out of range" bug.
+  const startIndex = (safePage - 1) * perPage;                 // 0-based index where this page begins
+                                           // ⚠️ 1-based page → 0-based index. The "- 1" is THE
+                                           //    off-by-one: drop it and page 1 skips the first
+                                           //    `perPage` rows.
+  return items.slice(startIndex, startIndex + perPage);
+}
 ```
 
 Lock these in: **`ceil` + floor-at-1** for the count, **clamp both ends every read**, and the
@@ -74,11 +82,11 @@ perPage` — see [`solution.ts`](./solution.ts).)
 ## Picture
 ```mermaid
 flowchart TD
-    A[user picks page / clicks Prev or Next / changes perPage] --> B["pages = max(1, ceil(total / perPage))"]
-    B --> C["safePage = clamp(page, 1, pages)"]
-    C --> D["start = (safePage - 1) * perPage"]
-    D --> E["slice items[start .. start+perPage)"]
-    E --> F["render rows + 'page safePage of pages'"]
+    A[user picks page / clicks Prev or Next / changes perPage] --> B["pageCount = max(1, ceil(totalItems / perPage))"]
+    B --> C["safePage = clamp(page, 1, pageCount)"]
+    C --> D["startIndex = (safePage - 1) * perPage"]
+    D --> E["slice items[startIndex .. startIndex+perPage)"]
+    E --> F["render rows + 'page safePage of pageCount'"]
     F --> G{perPage changed?}
     G -- yes --> B
     G -- no --> H[wait for next click]

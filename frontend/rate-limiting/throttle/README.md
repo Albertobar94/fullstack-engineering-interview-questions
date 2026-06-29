@@ -45,26 +45,31 @@ arrival is the one who goes next.
 ## How it works
 Pseudocode. The three ⚠️ lines are where every throttle bug hides.
 
-```
-timer    = null                      // null = idle (gate open)
-lastArgs = null                      // a call that arrived during cooldown
+```ts
+let cooldownTimer = null;                   // the cooldown handle; null = idle (gate open)
+let pendingArgs = null;                      // args of a call that arrived during cooldown
+let pendingThis = null;                      // `this` of that pending call
 
-function openGate():                 // runs when a window ends
-    if lastArgs is not null:
-        fn.apply(lastThis, lastArgs) // ⚠️ TRAILING fire — flush the saved call.
-        lastArgs = null
-        timer = setTimeout(openGate, wait)  // ⚠️ RE-ARM: the trailing fire opens its
-                                            //    own window, so a steady burst keeps cadence
-    else:
-        timer = null                 // truly idle — next call fires immediately
+function openGate() {                         // runs when a window ends
+  if (pendingArgs !== null) {                 // a call was queued during the window
+    callback.apply(pendingThis, pendingArgs); // ⚠️ TRAILING fire — flush the saved call.
+    pendingArgs = null;
+    cooldownTimer = setTimeout(openGate, wait); // ⚠️ RE-ARM: the trailing fire opens its
+                                              //    own window, so a steady burst keeps cadence
+  } else {
+    cooldownTimer = null;                     // truly idle — next call fires immediately
+  }
+}
 
-return function(...args):
-    if timer is not null:            // gate shut → don't fire, just remember the latest
-        lastArgs = args              // ⚠️ keep ONLY the last call. Drop this and the
-        lastThis = this              //    final scroll/drag position is lost.
-        return
-    fn.apply(this, args)             // LEADING edge — fire now
-    timer = setTimeout(openGate, wait)   // close the gate for `wait` ms
+return function (...args) {
+  if (cooldownTimer !== null) {               // gate shut → don't fire, just remember the latest
+    pendingArgs = args;                       // ⚠️ keep ONLY the last call. Drop this and the
+    pendingThis = this;                       //    final scroll/drag position is lost.
+    return;
+  }
+  callback.apply(this, args);                 // LEADING edge — fire now
+  cooldownTimer = setTimeout(openGate, wait); // close the gate for `wait` ms
+};
 ```
 
 Lock these in: **timer = cooldown flag**, **save last args for the trailing flush**, **re-arm on the trailing fire**. (Leading-only throttle drops the trailing flush — simpler, but loses the final call.)
@@ -72,7 +77,7 @@ Lock these in: **timer = cooldown flag**, **save last args for the trailing flus
 ## Picture
 ```mermaid
 flowchart TD
-    A[call arrives] --> B{gate shut? timer set?}
+    A[call arrives] --> B{gate shut? cooldownTimer set?}
     B -- no --> C[fire now: leading edge]
     C --> D[setTimeout openGate for wait ms]
     B -- yes --> E[save latest args + this]
@@ -80,7 +85,7 @@ flowchart TD
     E --> F
     F --> G{a call queued?}
     G -- yes --> H[fire trailing with last args] --> I[re-arm timer]
-    G -- no --> J[timer = null: idle, next call fires now]
+    G -- no --> J[cooldownTimer = null: idle, next call fires now]
 ```
 
 ## Where you'll meet it (practice + recognition)

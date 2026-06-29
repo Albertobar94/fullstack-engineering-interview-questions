@@ -45,25 +45,29 @@ a button before it actually moves. Keep pressing → it keeps waiting → one tr
 ## How it works
 Pseudocode. The three ⚠️ lines are where every debounce bug hides — the rest is wiring.
 
-```
-timer = null                         // ⚠️ declared in the CLOSURE, outside the returned
-                                     //    function. Inside it, each call makes its own
-                                     //    timer and nothing ever gets cancelled.
+```ts
+let pendingTimer = null;               // the one timeout handle we keep alive between calls
+                                       // ⚠️ declared in the CLOSURE, outside the returned
+                                       //    function. Inside it, each call makes its own
+                                       //    timer and nothing ever gets cancelled.
 
-return function(...args):
-    if timer is not null:
-        clearTimeout(timer)          // ⚠️ cancel the pending run FIRST, every call.
-                                     //    Skip this and the fn fires on EVERY call —
-                                     //    no debounce at all.
+return function (...args) {             // args = arguments of THIS call (the latest input)
+  if (pendingTimer !== null) {
+    clearTimeout(pendingTimer);        // ⚠️ cancel the pending run FIRST, every call.
+                                       //    Skip this and the callback fires on EVERY call —
+                                       //    no debounce at all.
+  }
 
-    savedThis = this                 // ⚠️ capture `this` (+ args). Fire later with
-                                     //    fn.apply(savedThis, args) so it works as a
-                                     //    method and uses the LATEST arguments.
+  const capturedThis = this;           // the receiver this call ran on, saved for later
+                                       // ⚠️ capture `this` (+ args). Fire later with
+                                       //    callback.apply(capturedThis, args) so it works
+                                       //    as a method and uses the LATEST arguments.
 
-    timer = setTimeout(():
-        timer = null                 // window's done — mark idle so the next burst is fresh
-        fn.apply(savedThis, args)    // the single, trailing-edge run
-    , wait)
+  pendingTimer = setTimeout(() => {
+    pendingTimer = null;               // window's done — mark idle so the next burst is fresh
+    callback.apply(capturedThis, args); // the single, trailing-edge run
+  }, wait);
+};
 ```
 
 Lock these in: **timer in the closure**, **clearTimeout first**, **fire with captured `this` + latest args**. (Leading-edge variant: fire *before* setting the timer, only when no timer was pending — see [`solution.ts`](./solution.ts).)
@@ -71,14 +75,14 @@ Lock these in: **timer in the closure**, **clearTimeout first**, **fire with cap
 ## Picture
 ```mermaid
 flowchart TD
-    A[call arrives] --> B{timer pending?}
+    A[call arrives] --> B{pendingTimer pending?}
     B -- yes --> C[clearTimeout: cancel pending run]
     B -- no --> D[save this + args]
     C --> D
     D --> E[setTimeout for wait ms]
     E --> F{another call before wait?}
     F -- yes --> A
-    F -- no --> G[timer fires: run fn once with latest args]
+    F -- no --> G[pendingTimer fires: run callback once with latest args]
 ```
 
 ## Where you'll meet it (practice + recognition)
