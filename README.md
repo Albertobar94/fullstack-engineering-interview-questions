@@ -73,6 +73,8 @@ techniques/                # the moves you apply to data
   linked-list/             # rewire pointers — reverse, m-n reversal, flatten multilevel
   stack/                   # LIFO-driven — min-remove-brackets, queue-from-two-stacks
   trees/                   # binary-tree walks — depth, level-order, side view, validate BST
+  grid/                    # BFS/DFS on a 2-D array — islands, rotting-oranges, walls-and-gates
+  graphs/                  # bfs-dfs, topological-sort, dijkstra, inform-employees
   search/                  # binary search (find-target, first-last); exponential/galloping (planned)
   hashing/                 # counting, two-sum, grouping
   prefix-sum/              # running totals — highest altitude, peak so far
@@ -86,8 +88,8 @@ structures/                # the data structures themselves — what each costs 
   trees/  graphs/          # branching / linked data
 paradigms/                 # whole problem-solving strategies
   recursion/               # solve via a smaller copy of itself — basics + quickselect (#215)
+  dynamic-programming/     # recursion + memory — climbing-stairs (1-D); grid/knapsack (planned)
   recursion-backtracking/  # subsets / orderings, puzzles                  (planned)
-  dynamic-programming/     # remember past answers — 1-D, grid, knapsack    (planned)
 ```
 
 Leaf folders (e.g. `techniques/two-pointers/sliding-window/`) created as you write each note. A
@@ -163,6 +165,14 @@ Table of contents — and a recognition lookup. Add a row when you write a note.
 | Trees — right side view | [`techniques/trees/right-side-view`](./techniques/trees/right-side-view/) | "what you'd see from the side"; BFS, keep the last node per level (#199) |
 | Trees — count complete | [`techniques/trees/count-complete`](./techniques/trees/count-complete/) | count a **complete** tree faster than O(n); perfect-subtree `2^h−1` shortcut → O(log²n) (#222) |
 | Trees — validate BST | [`techniques/trees/validate-bst`](./techniques/trees/validate-bst/) | "is it a valid BST"; carry inherited `(low, high)` bounds, not just parent compares (#98) |
+| Grid — number of islands | [`techniques/grid/number-of-islands`](./techniques/grid/number-of-islands/) | "how many connected regions" in a 2-D grid; flood-fill each blob, count starts (#200) |
+| Grid — rotting oranges | [`techniques/grid/rotting-oranges`](./techniques/grid/rotting-oranges/) | "time to spread from **many** sources"; multi-source BFS, count layers (#994) |
+| Grid — walls and gates | [`techniques/grid/walls-and-gates`](./techniques/grid/walls-and-gates/) | "distance from each cell to the **nearest** target"; multi-source BFS, fill on first visit (#286) |
+| Graphs — BFS & DFS | [`techniques/graphs/bfs-dfs`](./techniques/graphs/bfs-dfs/) | reachability / fewest hops / components; adjacency list + `visited` (#1971/#323) |
+| Graphs — topological sort | [`techniques/graphs/topological-sort`](./techniques/graphs/topological-sort/) | order a DAG by deps / detect a cycle; peel in-degree-0 nodes (Kahn) (#207) |
+| Graphs — Dijkstra | [`techniques/graphs/dijkstra`](./techniques/graphs/dijkstra/) | shortest path on a **weighted** graph; min-heap pulls the nearest node (#743) |
+| Graphs — inform employees | [`techniques/graphs/inform-employees`](./techniques/graphs/inform-employees/) | longest **weighted** root-to-leaf path on a tree-graph; DFS, max child (#1376) |
+| DP — climbing stairs (1-D) | [`paradigms/dynamic-programming/climbing-stairs`](./paradigms/dynamic-programming/climbing-stairs/) | sequence where each step's answer is `f(dp[i−1], dp[i−2])`; min/count, O(1) space (#746/#70) |
 | Debounce (fire once after quiet) | [`frontend/rate-limiting/debounce`](./frontend/rate-limiting/debounce/) | bursts of calls + you only want the **final** state; search-as-you-type, autosave, resize-end, file-watch reload |
 | Throttle (steady rate during burst) | [`frontend/rate-limiting/throttle`](./frontend/rate-limiting/throttle/) | bursts of calls + react **during** the burst at a fixed cadence; scroll/mousemove/drag handlers, outbound API rate-limit |
 | Event emitter (pub-sub by name) | [`frontend/events/event-emitter`](./frontend/events/event-emitter/) | one part announces "X happened", many react + (un)subscribe over time, linked by a **name** not a direct call; DOM events, app/domain event bus, sockets |
